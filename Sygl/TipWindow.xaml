@@ -1,0 +1,55 @@
+﻿<Window x:Class="Sygl.TipWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TipWindow" Height="200" Width="280" 
+        WindowStartupLocation="Manual" WindowStyle="None"
+        Background="{x:Null}" AllowsTransparency="True" ShowInTaskbar="False" 
+        Topmost="True" MouseDown="Window_MouseDown_1" Deactivated="Window_Deactivated_1" MouseEnter="Window_MouseEnter_1" Activated="Window_Activated_1">
+    <Window.Resources>
+        <!--窗口背景样式-->
+        <Style x:Key="TipWindowBorder" TargetType="Border">
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="BorderBrush" Value="#FF0C456C"></Setter>
+            <Setter Property="CornerRadius" Value="5"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#FF000000" 
+                                      BlurRadius="10" 
+                                      ShadowDepth="5" Opacity="1" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/Resource/TipBg.png"></ImageBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Border Style="{StaticResource ResourceKey=TipWindowBorder}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition  Width="80"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Column="1"  HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Button Style="{StaticResource ResourceKey=WindowCloseButtonStyle}" Name="CloseBtn" ToolTip="关闭" Click="CloseBtn_Click_1" ></Button>
+                
+            </StackPanel>
+            <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="50"></RowDefinition>
+                </Grid.RowDefinitions>                
+                <TextBlock xml:space="preserve" Padding="0 ,20,0,0" Foreground="#FF131A5D" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center">距离您填写本次实验记录还有
+                    <TextBlock Foreground="#FFD86D14" FontSize="38" FontStyle="Italic" FontWeight="Bold" Name="timeTip">45</TextBlock>  秒     </TextBlock>
+                <Button Grid.Row="1" Style="{StaticResource ResourceKey=SubmitBtnStyle}" Margin="0,0,10,0" Click="Button_Click_1">立刻填写</Button>
+            </Grid>
+            <TextBlock FontSize="12" Foreground="#FFFF" Margin="10,0" VerticalAlignment="Center">提示</TextBlock>
+        </Grid>
+    </Border>
+</Window>

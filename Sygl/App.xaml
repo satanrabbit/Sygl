@@ -1,0 +1,338 @@
+﻿<Application x:Class="Sygl.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            >
+    <Application.Resources>
+        <!--无样式按钮-->
+        <Style x:Key="ButtonNoStyle" TargetType="{x:Type Button}"  >
+            <Setter Property="Foreground" Value="#CAAA"></Setter>
+            <Setter Property="Margin" Value="5,0 ,5,0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button" >
+                        <!--背景色-->
+                        <Border x:Name="backBorder" >
+                            <ContentPresenter VerticalAlignment="Center" 
+                                              HorizontalAlignment="Center" />
+                        </Border>
+                        <!--模版触发器-->
+
+                    </ControlTemplate>
+                </Setter.Value>
+
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#FFFF" />
+                    <Setter Property="Cursor" Value="Hand" />
+                    
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--顶端窗口控制按钮基础样式-->
+        <Style  x:Key="WindowButtonBaseStyle" TargetType="Button" >
+            <Setter Property="Height" Value="23"/>
+        </Style>
+        <!--关闭按钮样式-->
+        <Style  x:Key="WindowCloseButtonStyle" TargetType="Button" BasedOn="{StaticResource WindowButtonBaseStyle}"  >
+            <Setter Property="Width" Value="45"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--外围样式-->
+                        <Border x:Name="BackBorder">
+                            <Border.Background>
+                                <ImageBrush x:Name="bgImg" ImageSource="Resource/new_close.png" Stretch="None" 
+                                            Viewport="0,0,100,23" ViewportUnits="Absolute"  AlignmentX="Left" AlignmentY="Top"/>
+                            </Border.Background>
+                        </Border>
+                        <!--模版事件触发器-->
+                        <ControlTemplate.Triggers>
+                            <!--鼠标进入时的动画-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BackBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/new_close.png" Stretch="None"
+                                            Viewport="-45,0,180,23"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!--鼠标点击时的动画-->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="BackBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/new_close.png" Stretch="None"
+                                            Viewport="-90,0,180,23"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--最小化按钮样式-->
+        <Style  x:Key="WindowMiniButtonStyle" TargetType="Button" BasedOn="{StaticResource WindowButtonBaseStyle}" >
+            <Setter Property="Width" Value="26"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--外围样式-->
+                        <Border x:Name="BackBorder">
+                            <Border.Background>
+                                <ImageBrush x:Name="bgImg" ImageSource="Resource/minsize.png" Stretch="None" 
+                                            Viewport="0,0,100,23" ViewportUnits="Absolute"  AlignmentX="Left" AlignmentY="Top"/>
+                            </Border.Background>
+                        </Border>
+                        <!--模版事件触发器-->
+                        <ControlTemplate.Triggers>
+                            <!--鼠标进入时的动画-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BackBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/minsize.png" Stretch="None"
+                                            Viewport="-25,0,100,23"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!--鼠标点击时的动画-->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="BackBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/minsize.png" Stretch="None"
+                                            Viewport="-50,0,100,23"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--最大化按钮样式-->
+        <Style  x:Key="WindowMaxButtonStyle" TargetType="Button" BasedOn="{StaticResource WindowButtonBaseStyle}" >
+            <Setter Property="Width" Value="27"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--外围样式-->
+                        <Border x:Name="BackBorder">
+                            <Border.Background>
+                                <ImageBrush x:Name="bgImg" ImageSource="Resource/maxsize.png" Stretch="None" 
+                                            Viewport="0,0,108,23" ViewportUnits="Absolute"  AlignmentX="Left" AlignmentY="Top"/>
+                            </Border.Background>
+                        </Border>
+                        <!--模版事件触发器-->
+                        <ControlTemplate.Triggers>
+                            <!--鼠标进入时的动画-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BackBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/maxsize.png" Stretch="None"
+                                            Viewport="-27,0,108,23"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!--鼠标点击时的动画-->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="BackBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/maxsize.png" Stretch="None"
+                                            Viewport="-54,0,108,23"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--设置菜单按钮按钮样式-->
+        <Style  x:Key="WindowSetButtonStyle" TargetType="Button" BasedOn="{StaticResource WindowButtonBaseStyle}" >
+            <Setter Property="Width" Value="27"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--外围样式-->
+                        <Border x:Name="BackBorder">
+                            <Border.Background>
+                                <ImageBrush x:Name="bgImg" ImageSource="Resource/setbtn.png" Stretch="None" 
+                                            Viewport="0,0,108,23" ViewportUnits="Absolute"  AlignmentX="Left" AlignmentY="Top"/>
+                            </Border.Background>
+                        </Border>
+                        <!--模版事件触发器-->
+                        <ControlTemplate.Triggers>
+                            <!--鼠标进入时的动画-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BackBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/setbtn.png" Stretch="None"
+                                            Viewport="-27,0,108,23"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!--鼠标点击时的动画-->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="BackBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/setbtn.png" Stretch="None"
+                                            Viewport="-54,0,108,23"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--提交按钮样式-->
+        <Style x:Key="SubmitBtnStyle" TargetType="{x:Type Button}" >
+            <Setter Property="Height" Value="34" />
+            <Setter Property="Width" Value="82" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="FontSize" Value="14"></Setter>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--背景色-->
+                        <Border x:Name="foreBorder" CornerRadius="5" Padding="0,0,5,5" >
+                            <Border.Background>
+                                <ImageBrush ImageSource="Resource/SubmitBtn.png" Stretch="None" 
+                                                Viewport="0,0,1,1" AlignmentX="Left" AlignmentY="Top" ></ImageBrush>
+                            </Border.Background>
+                            <ContentPresenter VerticalAlignment="Center"  
+                                              HorizontalAlignment="Center" />
+                        </Border>
+
+                        <!--模版触发器-->
+                        <ControlTemplate.Triggers>
+                            <!--鼠标进入时的动画-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="foreBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/SubmitBtn.png" Stretch="None"
+                                            Viewport="-82,0,328,34"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!--鼠标点击时的动画-->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="foreBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/SubmitBtn.png" Stretch="None"
+                                             Viewport="-164,0,328,34"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--blue按钮样式-->
+        <Style x:Key="SkyBlueBtnStyle" TargetType="{x:Type Button}" >
+            <Setter Property="Height" Value="27" />
+            <Setter Property="Width" Value="83" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="FontSize" Value="14"></Setter>
+            
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--背景色-->
+                        <Border x:Name="foreBorder" CornerRadius="5" >
+                            <Border.Background>
+
+                                <ImageBrush ImageSource="Resource/GlassesGreenBtn.png" Stretch="None" 
+                                            Viewport="0,0,468,36"  
+                                            ViewportUnits="Absolute"
+                                            AlignmentX="Left" AlignmentY="Top" ></ImageBrush>
+                            </Border.Background>
+                            <ContentPresenter VerticalAlignment="Center"  
+                                              HorizontalAlignment="Center" />
+                        </Border>
+
+                        <!--模版触发器-->
+                        <ControlTemplate.Triggers>
+                            <!--鼠标进入时的动画-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="foreBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/GlassesGreenBtn.png" Stretch="None"
+                                                    Viewport="-83,0,332,27"  
+                                                    ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!--鼠标点击时的动画-->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="foreBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/GlassesGreenBtn.png" Stretch="None"
+                                             Viewport="-166,0,332,27"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--圆形关闭按钮
+        ToolTip="关闭" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Height="30" BorderBrush="{x:Null}">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Resource/Close_Ellipse.png"
+                                       Viewport="0,0,60,30" ViewportUnits="Absolute"  Stretch="None" AlignmentX="Left" AlignmentY="Top" >                                
+                            </ImageBrush>
+                        </Button.Background>
+        -->
+        <Style x:Key="EllipseCloseBtnStyle" TargetType="Button">
+            <Setter Property="ToolTip" Value="关闭"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+            <Setter Property="VerticalAlignment" Value="Top"></Setter>
+            <Setter Property="Width" Value="30"></Setter>
+            <Setter Property="Height" Value="30" />
+            <Setter Property="BorderBrush" Value="{x:Null}"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--外围样式-->
+                        <Border x:Name="BackBorder">
+                            <Border.Background>
+                                <ImageBrush x:Name="bgImg" ImageSource="Resource/Close_Ellipse.png" Stretch="None" 
+                                            Viewport="0,0,60,30" ViewportUnits="Absolute"  AlignmentX="Left" AlignmentY="Top"/>
+                            </Border.Background>
+                        </Border>
+                        <!--模版事件触发器-->
+                        <ControlTemplate.Triggers>
+                            <!--鼠标进入时的动画-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BackBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/Close_Ellipse.png" Stretch="None"
+                                            Viewport="-30,0,60,30"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Application.Resources>
+</Application>

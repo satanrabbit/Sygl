@@ -1,0 +1,458 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Sygl.MainWindow"
+        Title="MainWindow" Height="650" Width="800" 
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        Background="{x:Null}" AllowsTransparency="True" MouseDown="Window_MouseDown_1"
+        >
+    <Window.Resources>
+       
+        <!--窗体面板内按钮基础样式  Width="100" Height="60" Foreground="White" Margin="5,0,5,0" -->
+        <Style x:Key="MenuButtonBaseStyle" TargetType="{x:Type Button}" >    
+            <Setter Property="Width" Value="70"></Setter>
+            <Setter Property="Height" Value="70"></Setter>
+            <Setter Property="Margin" Value="10,0,10,0"></Setter>
+            <Setter Property="Foreground" Value="#FFFF"></Setter>
+            <Setter Property="FontSize" Value="12"></Setter>
+                <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--背景色-->
+                        <Border x:Name="backBorder"  >
+                            <Border x:Name="foreBorder" CornerRadius="5" Padding="0,0,5,5">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="Resource/781.png" Stretch="None" Viewport="0,0,0.8,0.8" AlignmentY="Center" ></ImageBrush>
+                                </Border.Background>
+                                <ContentPresenter VerticalAlignment="Bottom" 
+                                              HorizontalAlignment="Right"/>
+                            </Border>
+                        </Border>
+                        <!--模版触发器-->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="backBorder" Property="CornerRadius" Value="5" />
+                                <Setter TargetName="backBorder" Property="BorderThickness" Value="1" />
+                                <Setter TargetName="backBorder" Property="BorderBrush" Value="#FFAAAAAA" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+                
+            </Setter>            
+        </Style>
+        <!--查询按钮样式-->
+        <Style x:Key="MenuButtonSearchBaseStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MenuButtonBaseStyle}"  >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--背景色-->
+                        <Border x:Name="backBorder"  >
+                            <Border x:Name="foreBorder" CornerRadius="5" Padding="0,0,5,5">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="Resource/896.png" Stretch="None" Viewport="0,0,0.8,0.8" AlignmentY="Center" ></ImageBrush>
+                                </Border.Background>
+                                <ContentPresenter VerticalAlignment="Bottom" 
+                                              HorizontalAlignment="Right"/>
+                            </Border>
+                        </Border>
+                        <!--模版触发器-->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="backBorder" Property="CornerRadius" Value="5" />
+                                <Setter TargetName="backBorder" Property="BorderThickness" Value="1" />
+                                <Setter TargetName="backBorder" Property="BorderBrush" Value="#FFAAAAAA" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!--设置菜单按钮按钮样式-->
+        <Style  x:Key="WindowSetButtonStyle" TargetType="Button" BasedOn="{StaticResource WindowButtonBaseStyle}" >
+            <Setter Property="Width" Value="27"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--外围样式-->
+                        <Border x:Name="BackBorder">
+                            <Border.Background>
+                                <ImageBrush x:Name="bgImg" ImageSource="Resource/setbtn.png" Stretch="None" 
+                                            Viewport="0,0,108,23" ViewportUnits="Absolute"  AlignmentX="Left" AlignmentY="Top"/>
+                            </Border.Background>
+                        </Border>
+                        <!--模版事件触发器-->
+                        <ControlTemplate.Triggers>
+                            <!--鼠标进入时的动画-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BackBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/setbtn.png" Stretch="None"
+                                            Viewport="-27,0,108,23"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!--鼠标点击时的动画-->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="BackBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/setbtn.png" Stretch="None"
+                                            Viewport="-54,0,108,23"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--关闭关于按钮-->
+        <!--关闭按钮样式-->
+        <Style  x:Key="AboutCloseButtonStyle" TargetType="Button" BasedOn="{StaticResource WindowButtonBaseStyle}"  >
+            <Setter Property="Width" Value="24"/>
+            <Setter Property="Height" Value="23"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--外围样式-->
+                        <Border x:Name="BackBorder">
+                            <Border.Background>
+                                <ImageBrush x:Name="bgImg" ImageSource="Resource/close_btn.bmp" Stretch="None" 
+                                            Viewport="0,0,84,23" ViewportUnits="Absolute"  AlignmentX="Left" AlignmentY="Top"/>
+                            </Border.Background>
+                        </Border>
+                        <!--模版事件触发器-->
+                        <ControlTemplate.Triggers>
+                            <!--鼠标进入时的动画-->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BackBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/close_btn.bmp" Stretch="None"
+                                            Viewport="-24,0,84,23"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!--鼠标点击时的动画-->
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="BackBorder" Property="Background">
+                                    <Setter.Value>
+                                        <ImageBrush ImageSource="Resource/close_btn.bmp" Stretch="None"
+                                            Viewport="-48,0,84,23"  ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top">
+                                        </ImageBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!--checkBox样式-->
+        <Style x:Key="CheckBoxSty" TargetType="CheckBox">
+            <Setter Property="Margin" Value="5,0,5,0"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Foreground" Value="#FF141649"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <!--Label字体样式-->
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="#FF141649"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+        </Style>
+    </Window.Resources>
+    <Border 
+            x:Name="EffectBorder"
+            BorderBrush="#FF111111" 
+            BorderThickness="1" 
+            CornerRadius="5"
+            Margin="20,20,20,20">
+        <Border.Background>
+            <ImageBrush ImageSource="Resource/bg.jpg"/>
+        </Border.Background>
+        <Border.Effect>
+            <DropShadowEffect Color="#FF666666" BlurRadius="20" ShadowDepth="0" Opacity="1" />
+        </Border.Effect>
+        <Grid x:Name="LayOutGrid" Margin="0.5">
+            <Grid.Background>
+                <ImageBrush/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="25"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="160"/>
+            </Grid.ColumnDefinitions>
+            <!--拖拽及双击控制窗口最大还原状态的区域
+            <StackPanel Name="ControlPanel" Grid.ColumnSpan="3" Grid.RowSpan="2" MouseDown="Window_MouseDown_1"  >
+                
+            </StackPanel>-->
+            <!--Logo区域-->
+            <StackPanel Orientation="Horizontal">
+                <Label FontSize="14"  FontWeight="SemiBold" Foreground="White" Content="实验记录系统" VerticalAlignment="Center"/>
+            </StackPanel>
+            <!--Logo区域 结束-->
+            <!--窗口控制按钮区域-->
+            <StackPanel Orientation="Horizontal"  Grid.Column="3" Grid.Row="0" 
+                        HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Height="25">
+                <Button Style="{StaticResource ResourceKey=WindowSetButtonStyle}" Name="SetBtn" ToolTip="设置"/>
+                <Button Style="{StaticResource ResourceKey=WindowMiniButtonStyle}" Name="MiniBtn" ToolTip="最小化" Click="MiniBtn_Click_1" />
+                <Button Style="{StaticResource ResourceKey=WindowMaxButtonStyle}" Name="MaxBtn" ToolTip="最大化"  />
+                <Button Style="{StaticResource ResourceKey=WindowCloseButtonStyle}" Name="CloseBtn" ToolTip="关闭" 
+                         Click="Close_Button_Click_1">                   
+                </Button>
+            </StackPanel>
+            <!--窗口控制按钮区域 结束-->
+            <!--操作按钮区域-->
+            <StackPanel Orientation="Horizontal"  
+                        Grid.Column="1" Grid.ColumnSpan="1"
+                        Grid.Row="0" Grid.RowSpan="2"
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Center">
+                <Button Style="{StaticResource ResourceKey=MenuButtonBaseStyle}" Content="填写" />
+                <Button Style="{StaticResource ResourceKey=MenuButtonSearchBaseStyle}" Content="查询"/>
+            </StackPanel>
+            <!--操作按钮区域 结束-->
+            <!--主面板区域背景设置-->
+            <DockPanel Grid.Column="0" Grid.ColumnSpan="3"
+                        Grid.Row="2"  Name="BackPanel"  Background="#CDFBFBFB" />
+            <!--主面板区域背景设置 结束-->
+            <!--主面板内容区域-->
+            <DockPanel Name="ContentPannel" Grid.Column="0" Grid.ColumnSpan="3"
+                        Grid.Row="2" LastChildFill="True" >
+                <!--关于部分-->
+                <Grid x:Name="AbuoutLayout" Height="60" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="65*"/>
+                        <ColumnDefinition Width="500*"/>
+                        <ColumnDefinition Width="75*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.Background>
+                        <ImageBrush ImageSource="Resource/aboutBackground.png"/>
+                    </Grid.Background>
+                    <TextBlock TextAlignment="Center" Margin="0 , 0, 10 ,0"
+                		TextWrapping="Wrap" Text="关于" Width="18" Foreground="#FF1414D1" FontWeight="Bold" 
+                		FontSize="14"
+                		HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <TextBlock Grid.Column="1" TextWrapping="Wrap" TextTrimming="WordEllipsis" 
+                		FontStretch="SemiCondensed" HorizontalAlignment="Left" 
+                		FontSize="14"
+                		LineHeight="23"
+                		VerticalAlignment="Center" FontWeight="Medium" Foreground="#FF333333">
+                        <TextBlock.Text>本软件设计共中央2月28日上午在中南海怀仁堂举行民主协商会，就国务院机构改革和职能转变、中共中央拟向十二届全国人大一次会议推荐的国家机构领导人员人选建议名单和拟向全国政协十二届一次会议推荐的全国政协领导人员人选建议名单，向各民主党派、全国工商联和无党派人士通报情况，听取意见。中共中央总书记习近平主持会议并发表重要讲话。</TextBlock.Text>
+                    </TextBlock>
+                    <StackPanel Grid.Column="2" Background="{x:Null}">
+                        <Button  Style="{StaticResource ResourceKey=AboutCloseButtonStyle}"  x:Name="AboutCloseBtn" 
+                			VerticalAlignment="Top" HorizontalAlignment="Left" Margin="12,2,0,0">
+                            <Button.Triggers>
+                                <EventTrigger RoutedEvent="ButtonBase.Click">
+                                    
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation
+                								Storyboard.TargetName="AbuoutLayout" 
+                								Storyboard.TargetProperty="Height"
+                								From="60" To="0.0" Duration="0:0:0.5" 
+                                               />
+                                            <DoubleAnimation
+                								Storyboard.TargetName="AboutBtn" 
+                								Storyboard.TargetProperty="Width"
+                								From="0" To="30" Duration="0:0:0.01" 
+                                               />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                    
+                                </EventTrigger>
+                            </Button.Triggers>
+
+                        </Button>
+                        <Button Click="AboutBtn_Click_1" Width="50" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Bottom" Style="{StaticResource ResourceKey=ButtonNoStyle}">
+                            <TextBlock Foreground="#FF09154F" TextDecorations="Underline">详细...</TextBlock>
+                        </Button>
+                    </StackPanel>
+
+                </Grid>
+                <!--关于部分结束-->
+                
+                <Grid DockPanel.Dock="Top">
+                    <!--填写区域面板 -->
+                    <DockPanel Name="SignPanel" Visibility="Visible" >
+                        <Grid Width="720" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="110"></ColumnDefinition>
+                                <ColumnDefinition Width="190"></ColumnDefinition>
+                                <ColumnDefinition Width="90"></ColumnDefinition>
+                                <ColumnDefinition Width="190"></ColumnDefinition>
+                                <ColumnDefinition Width="140" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="10"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="5"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition>
+                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="20"></RowDefinition> 
+                            </Grid.RowDefinitions>
+                            <Label  Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="66">课程名称</Label>
+                            <Label  Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="66">实验名称</Label>
+                            <Label  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="66">实验时间</Label>
+                            <Label  Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="66">实验班级</Label> 
+                            <Label  Grid.Column="0" Grid.Row="11" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="95">学生出勤情况</Label>
+                            <Label  Grid.Column="0" Grid.Row="13" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="95">实验设备情况</Label>
+                            <Label  Grid.Column="0" Grid.Row="15" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="95">实验出现问题</Label>
+                            <!--课程名 CourseName-->
+                            <TextBox Name="CourseName" Grid.Column="1" Grid.Row="1" Height="30"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow"/>
+                            <!--实验名 ExpName-->
+                            <TextBox Name="ExpName" Grid.Column="3" Grid.Row="1" Height="30"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow"/>
+                            <Label Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" >
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" >
+                                    <TextBlock Name="ExpDate">2013年3月11日</TextBlock> 第
+                                    <TextBlock Name="ExpWeek">2</TextBlock> 教学周 周
+                                    <TextBlock Name="ExpWeekday">4</TextBlock>
+                                </TextBlock>
+                            </Label>
+                            <!--课节时间-->
+                            <StackPanel Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <CheckBox Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第一节" Name="ExpClass_1"/>
+                                <CheckBox  Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第二节" Name="ExpClass_2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <CheckBox  Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第三节" Name="ExpClass_3" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <CheckBox  Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第四节" Name="ExpClass_4" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <CheckBox  Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第五节" Name="ExpClass_5" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <CheckBox  Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第六节" Name="ExpClass_6" HorizontalAlignment="Center" VerticalAlignment="Center" /> 
+
+                            </StackPanel>
+                            <!--实验班级 ExpClass-->
+                            <TextBox Name="ExpClass" Grid.Column="1" Height="30" Grid.Row="7"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow"/>
+                            <Grid Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label HorizontalContentAlignment="Right" VerticalContentAlignment="Center">应到人数</Label>
+                                <Label HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Grid.Column="2">实到人数</Label>
+                                <!--应到人数 Shoulder-->
+                                <TextBox Name="Shoulder" Grid.Column="1" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                                <!--实到人数 Realize-->
+                                <TextBox Name="Realize" Grid.Column="3" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                            </Grid>
+                            <Grid Grid.Column="2" Grid.Row="9" Grid.ColumnSpan="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label HorizontalContentAlignment="Right" VerticalContentAlignment="Center">实验组数</Label>
+                                <Label HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Grid.Column="2">每组人数</Label>
+                                <!--实验组数 ExpGroups-->
+                                <TextBox Name="ExpGrops" Grid.Column="1" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                                <!--每组人数 PerGroup-->
+                                <TextBox Name="PerGroup" Grid.Column="3" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                            </Grid>
+                            <!--学生出勤情况 StudentStatus-->
+                            <TextBox Name="StudentsStatu" Grid.Column="1" Height="30" Grid.Row="11" Grid.ColumnSpan="3"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow"/>
+                            <!--设备情况 InstrumentStatus-->
+                            <TextBox Name="InstrumentStatus" Grid.Column="1" Height="30" Grid.Row="13" Grid.ColumnSpan="3"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow"/>
+                            <!--出现问题 Problems-->
+                            <TextBox Name="Problems" Grid.Column="1" Height="30" Grid.Row="15" Grid.ColumnSpan="3"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow"/>
+                            <Grid Grid.Column="4" Grid.RowSpan="16">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition Height="20"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition Height="20"></RowDefinition>
+                                    <RowDefinition Height="30"></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition Height="20"></RowDefinition>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Label HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="10,0,10,0" Grid.Row="1">教师姓名</Label>
+                                <Label HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="10,0,10,0" Grid.Row="4">教工号</Label>
+                                <Label HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="10,0,10,0" Grid.Row="7">学生组长(姓名)</Label>
+                                <!--教师姓名 TeacherName-->
+                                <TextBox Name="TeacherName"  Grid.Row="2" Height="30" VerticalContentAlignment="Center" Margin="30,0,0,0" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                                <!--教工号 TeacherNum-->
+                                <TextBox Name="TeacherNum" Grid.Row="5" Height="30" VerticalContentAlignment="Center" Margin="30,0,0,0" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                                <!--学生组长 StudentName-->
+                                <TextBox Name="StudentName" Grid.Row="8" Height="30" VerticalContentAlignment="Center" Margin="30,0,0,0" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                                <Button Name="SubmitSign" Grid.Row="11" 
+                                        Style="{StaticResource ResourceKey=SubmitBtnStyle}" Foreground="#FF200B66"
+                                        Click="SubmitSign_Click_1">提交</Button>
+                            </Grid>
+                        </Grid>
+                        
+                    </DockPanel>
+                    <!--填写区域面板 结束-->
+                    <!--查询内容面板区域-->
+                    <DockPanel Name="SearchPanel" Visibility="Hidden">
+
+                    </DockPanel>
+                    <!--查询内容面板区域 结束-->
+                </Grid>
+            </DockPanel>
+            <!--主面板区域 结束-->
+            <!--底部状态栏-->
+            <Grid Grid.Row="3" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="3" Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <Button Content="反馈" Style="{StaticResource ResourceKey=ButtonNoStyle}" >
+                    </Button>
+                    <Button Content="关于" Width="0" Name="AboutBtn"  Style="{StaticResource ResourceKey=ButtonNoStyle}">
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="ButtonBase.Click">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                								Storyboard.TargetName="AbuoutLayout" 
+                								Storyboard.TargetProperty="Height"
+                								From="0" To="60" Duration="0:0:0.5" 
+                                               />
+                                        <DoubleAnimation
+                								Storyboard.TargetName="AboutBtn" 
+                								Storyboard.TargetProperty="Width"
+                								From="30" To="0" Duration="0:0:0.01" 
+                                               />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <!--底部状态栏 结束-->
+        </Grid>
+    </Border>
+</Window>

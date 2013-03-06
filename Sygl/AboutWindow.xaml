@@ -1,0 +1,142 @@
+﻿<Window x:Class="Sygl.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AboutWindow" Height="400" Width="550" WindowStyle="None"
+        Background="{x:Null}" AllowsTransparency="True" ShowInTaskbar="False" 
+        MouseDown="Window_MouseDown_1"
+        Topmost="True" WindowStartupLocation="CenterScreen" >
+    <Window.Resources>
+        <!--窗口背景样式-->
+        <Style x:Key="AboutWindowBorder" TargetType="Border">
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="BorderBrush" Value="#FF0C456C"></Setter>
+            <Setter Property="CornerRadius" Value="5"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#FF000000" 
+                                      BlurRadius="10" 
+                                      Opacity="1" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/Resource/bg.jpg"></ImageBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Border Style="{StaticResource ResourceKey=AboutWindowBorder}">         
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+            </Grid.RowDefinitions>
+            <!--第一行，标题栏内容-->
+            <Grid>               
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="#FFFF" VerticalAlignment="Center" Margin="20,0,0,0">关于实验记录系统</TextBlock>
+                </StackPanel>
+                <!--窗口控制按钮区域-->
+                <StackPanel Orientation="Horizontal" Grid.Row="0" 
+                            HorizontalAlignment="Right" VerticalAlignment="Top"
+                            Height="25"> 
+                    <Button Style="{StaticResource ResourceKey=WindowCloseButtonStyle}" Name="CloseBtn" ToolTip="关闭" 
+                             Click="CloseBtn_Click_1">
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <!--关于软件内容栏-->
+            <ScrollViewer Grid.Row="1" Background="#BFFF">
+                <StackPanel>
+                    <TextBlock  xml:space="preserve" TextWrapping="Wrap">
+      中新网北京3月5日电(记者 李志全) 中国总理温家宝5日在向全国人大所作的政府工作报告中，对今年政府主要工作提出4方面建议，民生问题所占篇幅长、着墨多。
+      当日举行的十二届全国人大一次会议上，温家宝“结合过去十年特别是近五年工作的体会”，对今年政府主要工作提出以下建议。
+　　  一是加快转变经济发展方式，促进经济持续健康发展。温家宝说，必须坚持以经济建设为中心，聚精会神搞发展，一心一意谋发展。要顺应人民群众对美好生活环境的期待，大力加强生态文明建设和环境保护。生态环境关系人民福祉，关乎子孙后代和民族未来。
+　　  二是强化农业农村发展基础，推动城乡发展一体化。温家宝建议，加快推进户籍制度、社会管理体制和相关制度改革，有序推进农业转移人口市民化，逐步实现城镇基本公共服务覆盖常住人口，为人们自由迁徙、安居乐业创造公平的制度环境。
+　　  三是以保障和改善民生为重点，全面提高人民物质文化生活水平。温家宝表示，教育和科技在现代化建设中具有基础性、先导性、全局性作用，文化是民族的血脉和人民的精神家园，必须放在更加重要的战略位置。
+　　  四是以更大的政治勇气和智慧，深入推进改革开放。温家宝指出，中国改革已进入攻坚阶段，必须进一步解放思想，全面推进经济、政治、文化、社会等领域的改革，不断把改革引向深入。
+　　  这是温家宝代表本届中国政府作最后一次政府工作报告。上述4方面建议位于报告的第三部分，“以保障和改善民生为重点，全面提高人民物质文化生活水平”所占篇幅最长，约2000字。
+　　  实质上，10年来，两届政府共召开的400余次国务院常务会议中，教育、医疗、住房等各类民生议题多达128个。
+　　  “2003年抗击突如其来的非典疫情给我们的重要启示之一，就是要统筹经济社会发展。”温家宝表示，当前社会结构、社会组织形式、社会利益格局发生深刻变化，社会矛盾明显增多。我们必须把保障和改善民生作为政府一切工作的出发点和落脚点，放在更加突出的位置，着力加强社会建设。(完)
+                    </TextBlock>
+                </StackPanel>
+            </ScrollViewer>
+            <!--About Author-->
+            <Grid Grid.Row="1" Name="AboutAuthorGrid"  Visibility="Hidden">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="30"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Background="#DA101010" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition ></RowDefinition>
+                        </Grid.RowDefinitions>
+                       <Border Grid.Row="0" Grid.RowSpan="2" Background="#DFFF" Margin="30,20,20,20">
+                            <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold">关于作者</TextBlock>
+                        </Border>
+                        <Button Style="{StaticResource ResourceKey=EllipseCloseBtnStyle}" 
+                                Name="CloseAboutAuthor" Click="CloseAboutAuthor_Click_1">
+                        </Button>
+                    </Grid>
+                </Border>
+            </Grid>
+            <!--About Computer Center-->
+            <Grid Grid.Row="1" Name="AboutCCGrid" Visibility="Hidden">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="30"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Background="#DA101010" Grid.ColumnSpan="3" Grid.RowSpan="2">
+
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition ></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" Grid.RowSpan="2" Background="#DFFF" Margin="30,20,20,20">
+                            <TextBlock   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold">关于计算中心</TextBlock>
+                        </Border>
+                        <Button Style="{StaticResource ResourceKey=EllipseCloseBtnStyle}" Name="CloseAboutCC" Click="CloseAboutCC_Click_1">
+                        </Button>
+                    </Grid>
+
+                   
+                </Border>
+            </Grid>
+            <!--状态栏内容-->
+            <Grid Grid.Row="2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Name="OpenAboutAuthorBtn" Style="{StaticResource ResourceKey=ButtonNoStyle}" Height="25" 
+                        HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,10,0,0" Click="OpenAboutAuthorBtn_Click_1">
+                    <TextBlock TextDecorations="Underline">关于作者</TextBlock>
+                </Button>
+                <Button Name="OpenAboutCCBtn" Grid.Column="1" Style="{StaticResource ResourceKey=ButtonNoStyle}" Height="25" 
+                        HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,10,0,0" Click="OpenAboutCCBtn_Click_1">
+                    <TextBlock TextDecorations="Underline" >关于计算中心</TextBlock>
+                </Button>
+                <Button Grid.Column="2" Name="SubmitAbout" Style="{StaticResource ResourceKey=SkyBlueBtnStyle}" 
+                        Foreground="#FF200B66" Click="SubmitAbout_Click_1"
+                                       >确定</Button>
+
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

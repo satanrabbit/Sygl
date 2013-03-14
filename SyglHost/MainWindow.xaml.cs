@@ -14,7 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ServiceModel;
 using SyglService;
-
+using SyglService.Interface;
+using JszxDataModel;
+using System.Threading;
 namespace SyglHost
 {
     /// <summary>
@@ -26,20 +28,81 @@ namespace SyglHost
         {
             InitializeComponent();
         }
-        ServiceHost host = new ServiceHost(typeof(SyglService.JszxService));
-
+        ServiceHost host = new ServiceHost(typeof(JszxService));
+        /// <summary>
+        /// 启动服务
+        /// </summary>
         private void StartService()
         {
+
+
+                SetControlServiceBtnText("服务启动中。。。");
+                SetControlServiceBtnAbility(false);
+                
                 host.Opened += delegate
                 {
-                    MessageBox.Show("服务启动");
-                };
-                host.Open();
+                    SetControlServiceBtnText("服务已经启动！"); 
+                }; 
+                if (host.State == CommunicationState.Closed || host.State == CommunicationState.Created)
+                {
+                    host.Open();
+                }
+        } 
+        private void ControlServiceBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Thread StartServiceThread = new Thread(new ThreadStart(delegate
+                {
+                    StartService();
+                }));
+                //设置为后台线程
+                StartServiceThread.IsBackground = true;
+                StartServiceThread.Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+
+           
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void SetTermBtn_Click_1(object sender, RoutedEventArgs e)
         {
-            StartService();
+            EditTerm editTerm = new EditTerm();
+            editTerm.ShowDialog();
         }
+        /// <summary>
+        /// 在子线程内更改btn文字
+        /// </summary>
+        /// <param name="msg"></param>
+        private void SetControlServiceBtnText(string msg)
+        { 
+            ControlServiceBtn.Dispatcher.Invoke(
+                new Action(
+                    delegate
+                    {
+                        this.ControlServiceBtn.Content = msg;
+                    }
+                ), null);
+            
+        }
+        /// <summary>
+        /// 在子线程内更改btn文字
+        /// </summary>
+        /// <param name="msg"></param>
+        private void SetControlServiceBtnAbility(bool b)
+        {
+            ControlServiceBtn.Dispatcher.Invoke(
+                new Action(
+                    delegate
+                    {
+                        this.ControlServiceBtn.IsEnabled = b;
+                    }
+                ), null);
+
+        }
+       
     }
 }

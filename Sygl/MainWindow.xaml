@@ -323,9 +323,11 @@
                             <Label  Grid.Column="0" Grid.Row="13" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="95">实验设备情况</Label>
                             <Label  Grid.Column="0" Grid.Row="15" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="95">实验出现问题</Label>
                             <!--课程名 CourseName-->
-                            <TextBox Name="CourseName" Grid.Column="1" Grid.Row="1" Height="30"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow"/>
+                            <TextBox Name="CourseName" Grid.Column="1" Grid.Row="1" Height="30"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow" GotFocus="CourseName_GotFocus_1" LostFocus="CourseName_LostFocus_1" />
+                            <Label Name="CourseNameV" Grid.Column="1" Grid.Row="2"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写课程名称！</Label>
                             <!--实验名 ExpName-->
-                            <TextBox Name="ExpName" Grid.Column="3" Grid.Row="1" Height="30"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow"/>
+                            <TextBox Name="ExpName" Grid.Column="3" Grid.Row="1" Height="30"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow" LostFocus="ExpName_LostFocus_1"/>
+                            <Label Name="ExpNameV" Grid.Column="3" Grid.Row="2"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写实验名称！</Label>
                             <Label Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" >
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" >
                                     <TextBlock Name="ExpDate">2013年3月11日</TextBlock> 第
@@ -341,10 +343,11 @@
                                 <CheckBox  Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第四节" Name="ExpClass_4" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <CheckBox  Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第五节" Name="ExpClass_5" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 <CheckBox  Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第六节" Name="ExpClass_6" HorizontalAlignment="Center" VerticalAlignment="Center" /> 
-
                             </StackPanel>
+                            <Label Name="ExpClassTimeV" Grid.Column="1" Grid.Row="6"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请选择实验时间！</Label>
                             <!--实验班级 ExpClass-->
-                            <TextBox Name="ExpClass" Grid.Column="1" Height="30" Grid.Row="7"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow"/>
+                            <TextBox Name="ExpClass" Grid.Column="1" Height="30" Grid.Row="7"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow" LostFocus="ExpClass_LostFocus_1"/>
+                            <Label Name="ExpClassV" Grid.Column="1" Grid.Row="8"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写实验班级！</Label>
                             <Grid Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
@@ -355,10 +358,12 @@
                                 <Label HorizontalContentAlignment="Right" VerticalContentAlignment="Center">应到人数</Label>
                                 <Label HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Grid.Column="2">实到人数</Label>
                                 <!--应到人数 Shoulder-->
-                                <TextBox Name="Shoulder" Grid.Column="1" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                                <TextBox Name="Shoulder" Grid.Column="1" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontSize="14" LostFocus="Shoulder_LostFocus_1"></TextBox>
                                 <!--实到人数 Realize-->
-                                <TextBox Name="Realize" Grid.Column="3" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                                <TextBox Name="Realize" Grid.Column="3" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontSize="14" LostFocus="Realize_LostFocus_1"></TextBox>
                             </Grid>
+                            <Label Name="ShoulderV" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="8"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Left" Visibility="Hidden">请填写应到人数！</Label>
+                            <Label Name="RealizeV" Grid.Column="2" Grid.Row="8" Grid.ColumnSpan="2"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写实到人数！</Label>
                             <Grid Grid.Column="2" Grid.Row="9" Grid.ColumnSpan="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition></ColumnDefinition>
@@ -369,16 +374,21 @@
                                 <Label HorizontalContentAlignment="Right" VerticalContentAlignment="Center">实验组数</Label>
                                 <Label HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Grid.Column="2">每组人数</Label>
                                 <!--实验组数 ExpGroups-->
-                                <TextBox Name="ExpGrops" Grid.Column="1" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                                <TextBox Name="ExpGroups" Grid.Column="1" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontSize="14" LostFocus="ExpGrops_LostFocus_1"></TextBox>
                                 <!--每组人数 PerGroup-->
-                                <TextBox Name="PerGroup" Grid.Column="3" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                                <TextBox Name="PerGroups" Grid.Column="3" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" FontSize="14" LostFocus="PerGroup_LostFocus_1"></TextBox>
                             </Grid>
+                            <Label Name="ExpGroupsV" Grid.Column="2" Grid.Row="10" Grid.ColumnSpan="2"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Visibility="Hidden">请填写实验组数！</Label>
+                            <Label Name="PerGroupsV" Grid.Column="2" Grid.Row="10" Grid.ColumnSpan="2"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写每组人数！</Label>
                             <!--学生出勤情况 StudentStatus-->
-                            <TextBox Name="StudentsStatu" Grid.Column="1" Height="30" Grid.Row="11" Grid.ColumnSpan="3"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow"/>
+                            <TextBox Name="StudentsStatus" Grid.Column="1" Height="30" Grid.Row="11" Grid.ColumnSpan="3"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow" LostFocus="StudentsStatus_LostFocus_1"/>
+                            <Label Name="StudentsStatusV" Grid.Column="1" Grid.Row="12" Grid.ColumnSpan="3" Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填学生出勤情况！</Label>
                             <!--设备情况 InstrumentStatus-->
-                            <TextBox Name="InstrumentStatus" Grid.Column="1" Height="30" Grid.Row="13" Grid.ColumnSpan="3"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow"/>
+                            <TextBox Name="InstrumentStatus" Grid.Column="1" Height="30" Grid.Row="13" Grid.ColumnSpan="3"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow" LostFocus="InstrumentStatus_LostFocus_1"/>
+                            <Label Name="InstrumentStatusV" Grid.Column="1" Grid.Row="14"  Grid.ColumnSpan="3"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写仪器设备情况！</Label>
                             <!--出现问题 Problems-->
-                            <TextBox Name="Problems" Grid.Column="1" Height="30" Grid.Row="15" Grid.ColumnSpan="3"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow"/>
+                            <TextBox Name="Problems" Grid.Column="1" Height="30" Grid.Row="15" Grid.ColumnSpan="3"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow" LostFocus="Problems_LostFocus_1"/>
+                            <Label Name="ProblemsV" Grid.Column="1" Grid.Row="16"  Grid.ColumnSpan="3" Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写出现问题！</Label>
                             <Grid Grid.Column="4" Grid.RowSpan="16">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="30"></RowDefinition>
@@ -398,11 +408,14 @@
                                 <Label HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="10,0,10,0" Grid.Row="4">教工号</Label>
                                 <Label HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="10,0,10,0" Grid.Row="7">学生组长(姓名)</Label>
                                 <!--教师姓名 TeacherName-->
-                                <TextBox Name="TeacherName"  Grid.Row="2" Height="30" VerticalContentAlignment="Center" Margin="30,0,0,0" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                                <TextBox Name="TeacherName"  Grid.Row="2" Height="30" VerticalContentAlignment="Center" Margin="30,0,0,0" HorizontalContentAlignment="Left" FontSize="14" LostFocus="TeacherName_LostFocus_1"></TextBox>
+                                <Label Name="TeacherNameV" Grid.Column="0" Grid.Row="3"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写教师姓名！</Label>
                                 <!--教工号 TeacherNum-->
-                                <TextBox Name="TeacherNum" Grid.Row="5" Height="30" VerticalContentAlignment="Center" Margin="30,0,0,0" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                                <TextBox Name="TeacherNum" Grid.Row="5" Height="30" VerticalContentAlignment="Center" Margin="30,0,0,0" HorizontalContentAlignment="Left" FontSize="14" LostFocus="TeacherNum_LostFocus_1"></TextBox>
+                                <Label Name="TeacherNumV" Grid.Column="0" Grid.Row="6"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写教工号！</Label>
                                 <!--学生组长 StudentName-->
-                                <TextBox Name="StudentName" Grid.Row="8" Height="30" VerticalContentAlignment="Center" Margin="30,0,0,0" HorizontalContentAlignment="Left" FontSize="14"></TextBox>
+                                <TextBox Name="StudentName" Grid.Row="8" Height="30" VerticalContentAlignment="Center" Margin="30,0,0,0" HorizontalContentAlignment="Left" FontSize="14" LostFocus="StudentName_LostFocus_1"></TextBox>
+                                <Label Name="StudentNameV" Grid.Column="0" Grid.Row="9"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写学生组长姓名！</Label>
                                 <Button Name="SubmitSign" Grid.Row="11" 
                                         Style="{StaticResource ResourceKey=SubmitBtnStyle}" Foreground="#FF200B66"
                                         Click="SubmitSign_Click_1">提交</Button>
@@ -422,11 +435,12 @@
             <!--底部状态栏-->
             <Grid Grid.Row="3" Grid.ColumnSpan="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"></ColumnDefinition>
-                    <ColumnDefinition Width="2*"></ColumnDefinition>
-                    <ColumnDefinition Width="2*"></ColumnDefinition>
-                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+                <!--关于和反馈按钮区-->
                 <StackPanel Grid.Column="3" Orientation="Horizontal" FlowDirection="RightToLeft">
                     <Button Content="反馈" Style="{StaticResource ResourceKey=ButtonNoStyle}" >
                     </Button>
@@ -451,6 +465,8 @@
                         </Button.Triggers>
                     </Button>
                 </StackPanel>
+                <!--系统状态区-->
+                <TextBlock Name="ServiceStatus" Grid.Column="1" Grid.ColumnSpan="2" Foreground="#FFFF" TextAlignment="Center" VerticalAlignment="Center" TextDecorations="Underline" >已连接服务器</TextBlock>
             </Grid>
             <!--底部状态栏 结束-->
         </Grid>

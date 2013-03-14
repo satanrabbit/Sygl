@@ -57,6 +57,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="EditTerm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -64,6 +68,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EditTerm.xaml.cs">
+      <DependentUpon>EditTerm.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -100,10 +107,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\JszxDataModel\JszxDataModel.csproj">
+      <Project>{69bfb135-da69-4fba-aa05-0a402f245359}</Project>
+      <Name>JszxDataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SyglService.Interface\SyglService.Interface.csproj">
+      <Project>{7c98525b-de76-4158-afd5-9464aba500ab}</Project>
+      <Name>SyglService.Interface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SyglService\SyglService.csproj">
       <Project>{15b3e0d2-6217-493a-a690-158c497f5318}</Project>
       <Name>SyglService</Name>
-      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -199,13 +199,6 @@
     <Resource Include="Resource\SubmitBtn.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SyglService\SyglService.csproj">
-      <Project>{15b3e0d2-6217-493a-a690-158c497f5318}</Project>
-      <Name>SyglService</Name>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 和 x64%29</ProductName>
@@ -250,6 +243,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\Close_Ellipse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JszxDataModel\JszxDataModel.csproj">
+      <Project>{69bfb135-da69-4fba-aa05-0a402f245359}</Project>
+      <Name>JszxDataModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SyglService.Interface\SyglService.Interface.csproj">
+      <Project>{7c98525b-de76-4158-afd5-9464aba500ab}</Project>
+      <Name>SyglService.Interface</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

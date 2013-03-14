@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5696c75880fd4c21ad354f24887a7130" Name="Diagram1" ZoomLevel="87">
+        <EntityTypeShape EntityType="jszxModel.admins_tb" Width="1.5" PointX="6.5" PointY="7.75" />
+        <EntityTypeShape EntityType="jszxModel.classtimes_tb" Width="1.5" PointX="6.5" PointY="13.75" />
+        <EntityTypeShape EntityType="jszxModel.courses_tb" Width="1.5" PointX="6.5" PointY="10.625" />
+        <EntityTypeShape EntityType="jszxModel.exprecords_tb" Width="1.5" PointX="10.875" PointY="7.5" />
+        <EntityTypeShape EntityType="jszxModel.labs_tb" Width="1.5" PointX="8.75" PointY="8.25" />
+        <EntityTypeShape EntityType="jszxModel.schedule_tb" Width="1.5" PointX="8.75" PointY="12.125" />
+        <EntityTypeShape EntityType="jszxModel.terms_tb" Width="1.5" PointX="10.875" PointY="13.25" />
+        <AssociationConnector Association="jszxModel.labs_tb_ibfk_1" />
+        <AssociationConnector Association="jszxModel.schedule_tb_ibfk_2" />
+        <AssociationConnector Association="jszxModel.schedule_tb_ibfk_1" />
+        <AssociationConnector Association="jszxModel.exprecords_tb_ibfk_1" />
+        <AssociationConnector Association="jszxModel.schedule_tb_ibfk_3" />
+        <AssociationConnector Association="jszxModel.schedule_tb_ibfk_4" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

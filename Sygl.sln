@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyglService", "SyglService\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyglHost", "SyglHost\SyglHost.csproj", "{92AFB629-8FB7-46D2-A63D-E5D558E08B51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JszxDataModel", "JszxDataModel\JszxDataModel.csproj", "{69BFB135-DA69-4FBA-AA05-0A402F245359}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyglService.Interface", "SyglService.Interface\SyglService.Interface.csproj", "{7C98525B-DE76-4158-AFD5-9464ABA500AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,14 @@ Global
 		{92AFB629-8FB7-46D2-A63D-E5D558E08B51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92AFB629-8FB7-46D2-A63D-E5D558E08B51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92AFB629-8FB7-46D2-A63D-E5D558E08B51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69BFB135-DA69-4FBA-AA05-0A402F245359}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69BFB135-DA69-4FBA-AA05-0A402F245359}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69BFB135-DA69-4FBA-AA05-0A402F245359}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69BFB135-DA69-4FBA-AA05-0A402F245359}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C98525B-DE76-4158-AFD5-9464ABA500AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C98525B-DE76-4158-AFD5-9464ABA500AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C98525B-DE76-4158-AFD5-9464ABA500AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C98525B-DE76-4158-AFD5-9464ABA500AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

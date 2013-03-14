@@ -2,7 +2,28 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        <Button Height="35" Width="60" Click="Button_Click_1">启动服务</Button>
-    </Grid>
+    <Border Background="#FFF0F0F0">
+        <!--外围布局框-->
+        <Grid Name="BackGrid">
+            <!--操控面板布局框-->
+            <Grid Name="MenuGrid" >
+                    <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button Height="35" Margin="10,0" Name="ControlServiceBtn" Click="ControlServiceBtn_Click_1">启动服务</Button>
+                <Button Height="35" Width="60" Name="SetTermBtn" Click="SetTermBtn_Click_1" Grid.Row="0" Grid.Column="1" >设置学期</Button>        
+            </Grid>
+        </Grid>
+    </Border>
 </Window>

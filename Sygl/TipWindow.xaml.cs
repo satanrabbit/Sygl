@@ -31,9 +31,11 @@ namespace Sygl
         double left = System.Windows.SystemParameters.PrimaryScreenWidth - 280;
         double top = System.Windows.SystemParameters.PrimaryScreenHeight;
 
-        public void windowUpAnimation(){
+        public void windowUpAnimation(string msg,string btnText){
             if (!this.IsVisible)
-            { 
+            {
+                this.TipMsg.Text = msg;
+                this.OpenSignBtn.Content = btnText;
                 this.Show();
                 DoubleAnimation doubleAnimation_window = new DoubleAnimation();
                 doubleAnimation_window.From = top;

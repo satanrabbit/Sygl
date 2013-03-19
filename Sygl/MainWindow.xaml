@@ -7,7 +7,6 @@
         Background="{x:Null}" AllowsTransparency="True" MouseDown="Window_MouseDown_1"
         >
     <Window.Resources>
-       
         <!--窗体面板内按钮基础样式  Width="100" Height="60" Foreground="White" Margin="5,0,5,0" -->
         <Style x:Key="MenuButtonBaseStyle" TargetType="{x:Type Button}" >    
             <Setter Property="Width" Value="70"></Setter>
@@ -336,13 +335,7 @@
                                 </TextBlock>
                             </Label>
                             <!--课节时间-->
-                            <StackPanel Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <CheckBox Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第一节" Name="ExpClass_1"/>
-                                <CheckBox  Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第二节" Name="ExpClass_2" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <CheckBox  Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第三节" Name="ExpClass_3" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <CheckBox  Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第四节" Name="ExpClass_4" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <CheckBox  Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第五节" Name="ExpClass_5" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                <CheckBox  Style="{StaticResource ResourceKey=CheckBoxSty}" Content="第六节" Name="ExpClass_6" HorizontalAlignment="Center" VerticalAlignment="Center" /> 
+                            <StackPanel Name="ClsTimePanel" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                             </StackPanel>
                             <Label Name="ExpClassTimeV" Grid.Column="1" Grid.Row="6"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请选择实验时间！</Label>
                             <!--实验班级 ExpClass-->

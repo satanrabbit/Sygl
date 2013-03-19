@@ -42,12 +42,14 @@
             </StackPanel>
             <Grid Grid.Row="1" Grid.ColumnSpan="2">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="50"></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition Height="50"></RowDefinition>
-                </Grid.RowDefinitions>                
-                <TextBlock xml:space="preserve" Padding="0 ,20,0,0" Foreground="#FF131A5D" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center">距离您填写本次实验记录还有
-                    <TextBlock Foreground="#FFD86D14" FontSize="38" FontStyle="Italic" FontWeight="Bold" Name="timeTip">45</TextBlock>  秒     </TextBlock>
-                <Button Grid.Row="1" Style="{StaticResource ResourceKey=SubmitBtnStyle}" Margin="0,0,10,0" Click="Button_Click_1">立刻填写</Button>
+                </Grid.RowDefinitions>
+                <TextBlock TextWrapping="Wrap" Name="TipMsg" xml:space="preserve" Padding="0 ,5,0,0" Foreground="#FF131A5D" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Bottom">距离您填写本次实验记录还有</TextBlock>
+                <TextBlock Grid.Row="1" xml:space="preserve"  Foreground="#FF131A5D" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center">
+                       <TextBlock Foreground="#FFD86D14" FontSize="38" FontStyle="Italic" FontWeight="Bold" Name="timeTip">30</TextBlock>  秒     </TextBlock>
+                <Button Name="OpenSignBtn" Grid.Row="2" Style="{StaticResource ResourceKey=SubmitBtnStyle}" Margin="0,0,10,0" Click="Button_Click_1">立刻填写</Button>
             </Grid>
             <TextBlock FontSize="12" Foreground="#FFFF" Margin="10,0" VerticalAlignment="Center">提示</TextBlock>
         </Grid>

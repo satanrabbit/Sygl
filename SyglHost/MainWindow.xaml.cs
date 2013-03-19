@@ -27,6 +27,7 @@ namespace SyglHost
         public MainWindow()
         {
             InitializeComponent();
+            //StartService();
         }
         ServiceHost host = new ServiceHost(typeof(JszxService));
         /// <summary>
@@ -34,8 +35,6 @@ namespace SyglHost
         /// </summary>
         private void StartService()
         {
-
-
                 SetControlServiceBtnText("服务启动中。。。");
                 SetControlServiceBtnAbility(false);
                 
@@ -43,7 +42,7 @@ namespace SyglHost
                 {
                     SetControlServiceBtnText("服务已经启动！"); 
                 }; 
-                if (host.State == CommunicationState.Closed || host.State == CommunicationState.Created)
+                if (host.State == CommunicationState.Created)
                 {
                     host.Open();
                 }
@@ -103,6 +102,12 @@ namespace SyglHost
                 ), null);
 
         }
+         
+        private void SetPopTimeBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            SetPopTime setPopTime = new SetPopTime();
+            setPopTime.ShowDialog();
+        } 
        
     }
 }

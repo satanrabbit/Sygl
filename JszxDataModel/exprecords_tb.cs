@@ -35,7 +35,9 @@ namespace JszxDataModel
         public Nullable<int> ExpTerm { get; set; }
         public Nullable<sbyte> ExpWeek { get; set; }
         public Nullable<sbyte> ExpWeekDay { get; set; }
+        public Nullable<int> ExpLabID { get; set; }
     
         public virtual terms_tb terms_tb { get; set; }
+        public virtual labs_tb labs_tb { get; set; }
     }
 }

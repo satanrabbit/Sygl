@@ -50,12 +50,48 @@ namespace Sygl.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int Lab {
+        public int LabID {
             get {
-                return ((int)(this["Lab"]));
+                return ((int)(this["LabID"]));
             }
             set {
-                this["Lab"] = value;
+                this["LabID"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("第六机房")]
+        public string LabName {
+            get {
+                return ((string)(this["LabName"]));
+            }
+            set {
+                this["LabName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
+        public int StartCounts {
+            get {
+                return ((int)(this["StartCounts"]));
+            }
+            set {
+                this["StartCounts"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("vYJuHnf/yW0=")]
+        public string ClintPWD {
+            get {
+                return ((string)(this["ClintPWD"]));
+            }
+            set {
+                this["ClintPWD"] = value;
             }
         }
     }

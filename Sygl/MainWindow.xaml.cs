@@ -17,7 +17,8 @@ using System.ServiceModel;
 using System.Windows.Threading;
 using SyglService.Interface;
 using JszxDataModel;
-
+using System.Drawing;
+using System.Windows.Forms;
 namespace Sygl
 {
     /// <summary>
@@ -28,14 +29,15 @@ namespace Sygl
         public MainWindow()
         {
             InitializeComponent();
-            TimeCounts = 10;
+            InitialTray();
+            TimeCounts=TIMECOUNTS = Properties.Settings.Default.StartCounts;
             StartTimer();
         }
 
         /// <summary>
         /// 启动后开始连接服务器的时间（秒数）
         /// </summary>
-        const int TIMECOUNTS=10;
+        int TIMECOUNTS;
 
         /// <summary>
         /// 窗口查询时间间隔(秒数)
@@ -96,7 +98,7 @@ namespace Sygl
             }
         }
 
-       
+        #region 提交事件
         /// <summary>
         /// 提交事件
         /// </summary>
@@ -107,11 +109,116 @@ namespace Sygl
         {
             //获取数据
             Exprecord expSubmit = new Exprecord();
+
             expSubmit.CourseName = this.CourseName.Text.Trim();
+            if (expSubmit.CourseName == "")
+            {
+               System.Windows.MessageBox.Show("请填写课程名！");
+               return;
+            }
             expSubmit.ExpClasses = this.ExpClass.Text.Trim();
+            if (expSubmit.ExpClasses == "")
+            {
+                System.Windows.MessageBox.Show("请填写实验班级！");
+                return;
+            }
             expSubmit.ExpDate = DateTime.Now.Date;
-            //expSubmit.ExpLab=
+            
+            expSubmit.ExpLab = Properties.Settings.Default.LabName;
+
+            expSubmit.ExpLabID = Properties.Settings.Default.LabID;
+            expSubmit.ExpName = this.ExpName.Text.Trim();
+            if (expSubmit.ExpName == "")
+            {
+                System.Windows.MessageBox.Show("请填写实验名称！");
+                return;
+            }
+            //实验学期在服务器端完成
+            //expSubmit.ExpTerm=
+            
+            expSubmit.ExpWeek =Convert.ToSByte(this.ExpWeek.Text.Trim());
+
+            expSubmit.ExpWeekDay = Convert.ToSByte(this.ExpWeekday.Text.Trim());
+            if (this.Shoulder.Text.Trim() == "")
+            {
+                System.Windows.MessageBox.Show("请填写学生应到人数！");
+                return;
+            }
+
+            expSubmit.Shoulder = Convert.ToInt32(this.Shoulder.Text.Trim());
+            if (this.Realize.Text.Trim() == "")
+            {
+                System.Windows.MessageBox.Show("请填写学生实到人数！");
+                return;
+            }
+            expSubmit.Realizer = Convert.ToInt32(this.Realize.Text.Trim());
+
+            if (this.ExpGroups.Text.Trim() == "")
+            {
+                System.Windows.MessageBox.Show("请填写实验组数！");
+                return;
+            }
+            expSubmit.Groups =Convert.ToInt32( this.ExpGroups.Text.Trim());
+            if (this.PerGroups.Text.Trim() == "")
+            {
+                System.Windows.MessageBox.Show("请填写实验每组人数！");
+                return;
+            }
+            expSubmit.PerGroup = Convert.ToInt32(this.PerGroups.Text.Trim());
+            
+            expSubmit.PostTime = DateTime.Now;
+            if (this.StudentsStatus.Text.Trim() == "")
+            {
+                System.Windows.MessageBox.Show("请填写学生出勤情况！");
+                return;
+            }
+            expSubmit.StudentStatus = this.StudentsStatus.Text.Trim();
+            if (this.InstrumentStatus.Text.Trim() == "")
+            {
+                System.Windows.MessageBox.Show("请填写仪器使用情况！");
+                return;
+            }
+            expSubmit.InstrumentStatus = this.InstrumentStatus.Text.Trim();
+            if (this.Problems.Text.Trim() == "")
+            {
+                System.Windows.MessageBox.Show("请填写实验出现问题！");
+                return;
+            }
+            expSubmit.Problems = this.Problems.Text.Trim();
+            if (this.TeacherName.Text.Trim() == "")
+            {
+                System.Windows.MessageBox.Show("请填写教师姓名！");
+                return;
+            }
+            expSubmit.TeacherName = this.TeacherName.Text.Trim();
+            if (this.TeacherNum.Text.Trim() == "")
+            {
+                System.Windows.MessageBox.Show("请填写教工号！");
+                return;
+            }
+            expSubmit.TeacherNumber = this.TeacherNum.Text.Trim();
+            if (this.StudentName.Text.Trim() == "")
+            {
+                System.Windows.MessageBox.Show("请填写学生组长姓名！");
+                return;
+            }
+            expSubmit.StudentName = this.StudentName.Text.Trim();
+            if (SelectedClass.Count <= 0)
+            {
+                System.Windows.MessageBox.Show("请选择实验课节！");
+            }
+            try
+            {
+                Proxy.SaveExpRecord(expSubmit, SelectedClass);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("出现错误："+ex.Message);
+            }
+
+
         }
+        #endregion
 
         #region 启动定时程序
         /// <summary>
@@ -154,6 +261,8 @@ namespace Sygl
                     {
                         if (TimeCounts == 0)
                         {
+                            //获取下一次弹出时间
+                            TimeCounts = Proxy.GetPopTimeTallies();
                             //显示窗口
                             this.Show();
                             if (tipWindow == null)
@@ -171,9 +280,7 @@ namespace Sygl
                                 switch (expRecordWithFlag.SignFlag)
                                 {
                                     case 0: //无课，不需填写
-                                        //发布时去除 start
-                                        SetForm(expRecordWithFlag.ExpRecord);
-                                        // 发布时去除 end
+                                        
                                         break;
                                     case 1: //已经填写
                                         break;
@@ -234,12 +341,14 @@ namespace Sygl
             timer.Start();
         }
         #endregion
+
         #region 最小化按钮事件
         private void MiniBtn_Click_1(object sender, RoutedEventArgs e)
         {
             this.Hide();
         }
         #endregion
+
         #region 关于按钮单击事件
         private void AboutBtn_Click_1(object sender, RoutedEventArgs e)
         {
@@ -279,7 +388,7 @@ namespace Sygl
             clsTimeList = Proxy.GetClassTimeList();
             foreach (ClassTime clt in clsTimeList)
             {
-                CheckBox chb = new CheckBox();
+                System.Windows.Controls.CheckBox chb = new System.Windows.Controls.CheckBox();
                 chb.Content = clt.ClsTmName;
 
                 chb.Style = Resources["CheckBoxSty"] as Style;
@@ -302,33 +411,22 @@ namespace Sygl
         #region 添加课节选择时间
         private void ExpClass_Checked(object sender, RoutedEventArgs e)
         {
-            CheckBox chb = (CheckBox)sender;
+            System.Windows.Controls.CheckBox chb = (System.Windows.Controls.CheckBox)sender;
             //当前选择的课节的信息
-            foreach (ClassTime clt in clsTimeList)
-            {
-                if (clt.ClsTmName == chb.Content.ToString())
-                {
-                    SelectedClass.Add(clt.ClsTmIndex);
-                }
-            }
-            
-
+            SelectedClass.Add(clsTimeList.Where(ct => ct.ClsTmName == chb.Content.ToString()).FirstOrDefault().ClsTmIndex);
+           
         }
         #endregion
+
         #region 去除课节选择时间
         private void ExpClass_UnChecked(object sender, RoutedEventArgs e)
         {
-            CheckBox chb = (CheckBox)sender;
+            System.Windows.Controls.CheckBox chb = (System.Windows.Controls.CheckBox)sender;
             //判断当前选择的课节的信息，删除当前课节
-            foreach (ClassTime clt in clsTimeList)
-            {
-                if (clt.ClsTmName == chb.Content.ToString())
-                {
-                    SelectedClass.Remove(clt.ClsTmIndex);
-                }
-            }
+            SelectedClass.Remove(clsTimeList.Where(ct => ct.ClsTmName == chb.Content.ToString()).FirstOrDefault().ClsTmIndex);
         }
         #endregion
+
         #region 数据验证
         private void CourseName_GotFocus_1(object sender, RoutedEventArgs e)
         {
@@ -495,6 +593,7 @@ namespace Sygl
             }
         }
         #endregion
+
         #endregion
 
         #region 服务器交互
@@ -524,6 +623,108 @@ namespace Sygl
                 ), null);
         }
         #endregion
- 
+
+
+        #region 托盘图标
+        private NotifyIcon notifyIcon; 
+        /// <summary>
+        /// 初始化托盘图标
+        /// </summary>
+        private void InitialTray()
+        {
+            //设置托盘的各个属性
+            notifyIcon = new System.Windows.Forms.NotifyIcon();
+            notifyIcon.BalloonTipText = "实验记录系统开始运行";
+            notifyIcon.Text = "实验记录";
+            notifyIcon.Icon = new System.Drawing.Icon(System.Windows.Forms.Application.StartupPath + @"\logo.ico");
+            notifyIcon.Visible = true;
+            notifyIcon.ShowBalloonTip(1000);
+            notifyIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(notifyIcon_MouseClick);
+
+            //设置菜单项
+            System.Windows.Forms.MenuItem SetMenu = new System.Windows.Forms.MenuItem("设置");
+            SetMenu.Click += new EventHandler(SetMenu_Click);
+
+            //System.Windows.Forms.MenuItem SetMenu = new System.Windows.Forms.MenuItem("设置");
+            //System.Windows.Forms.MenuItem menu = new System.Windows.Forms.MenuItem("菜单", new System.Windows.Forms.MenuItem[] { menu1});
+
+            //退出菜单项
+            System.Windows.Forms.MenuItem exit = new System.Windows.Forms.MenuItem("exit");
+            exit.Click += new EventHandler(exit_Click);
+
+            //关联托盘控件
+            System.Windows.Forms.MenuItem[] childen = new System.Windows.Forms.MenuItem[] { SetMenu, exit };
+            notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu(childen);
+
+            //窗体状态改变时候触发
+            this.StateChanged += new EventHandler(SysTray_StateChanged);
+        }
+
+       /// <summary>
+        /// 窗体状态改变时候触发
+       /// </summary>
+       /// <param name="sender"></param>
+       /// <param name="e"></param>
+        private void SysTray_StateChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == WindowState.Minimized)
+            {
+                this.Visibility = Visibility.Hidden;
+            }
+        }
+
+        /// <summary>
+        /// 退出选项
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void exit_Click(object sender, EventArgs e)
+        {
+            IsLogin lg = new IsLogin("退出");
+            LoginWindow lgw = new LoginWindow(lg);
+            lgw.ShowDialog();
+            if(lg.Login){
+            System.Windows.Application.Current.Shutdown();
+            }
+
+            //if (System.Windows.MessageBox.Show("确定要关闭吗?",
+            //                                    "退出",
+            //                                    MessageBoxButton.YesNo,
+            //                                    MessageBoxImage.Question,
+            //                                    MessageBoxResult.No) == MessageBoxResult.Yes)
+            //{
+            //    notifyIcon.Dispose();
+            //    System.Windows.Application.Current.Shutdown();
+            //}
+        }
+
+        private void SetMenu_Click(object sender,EventArgs e)
+        {
+            SetWindow setWindow = new SetWindow();
+        }
+
+        /// <summary>
+        /// 鼠标单击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void notifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                if (this.Visibility == Visibility.Visible)
+                {
+                    this.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    this.Visibility = Visibility.Visible;
+                    this.Activate();
+                }
+            }
+        }
+        #endregion
+
     }
+
 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="jszxDataModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+      <Schema Namespace="jszxDataModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="jszxDataModelStoreContainer">
           <EntitySet Name="admins_tb" EntityType="jszxDataModel.Store.admins_tb" store:Type="Tables" Schema="jszx_db" />
           <EntitySet Name="classtimes_tb" EntityType="jszxDataModel.Store.classtimes_tb" store:Type="Tables" Schema="jszx_db" />
@@ -238,16 +238,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="jszxDataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="JszxEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="jszxEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="admins_tb" EntityType="jszxDataModel.admins_tb" />
           <EntitySet Name="classtimes_tb" EntityType="jszxDataModel.classtimes_tb" />
           <EntitySet Name="courses_tb" EntityType="jszxDataModel.courses_tb" />
           <EntitySet Name="exprecords_tb" EntityType="jszxDataModel.exprecords_tb" />
           <EntitySet Name="labs_tb" EntityType="jszxDataModel.labs_tb" />
+          <EntitySet Name="poptimes_tb" EntityType="jszxDataModel.poptimes_tb" />
           <EntitySet Name="schedule_tb" EntityType="jszxDataModel.schedule_tb" />
           <EntitySet Name="terms_tb" EntityType="jszxDataModel.terms_tb" />
           <AssociationSet Name="labs_tb_ibfk_1" Association="jszxDataModel.labs_tb_ibfk_1">
@@ -266,6 +268,10 @@
             <End Role="terms_tb" EntitySet="terms_tb" />
             <End Role="exprecords_tb" EntitySet="exprecords_tb" />
           </AssociationSet>
+          <AssociationSet Name="exprecords_tb_ibfk_2" Association="jszxDataModel.exprecords_tb_ibfk_2">
+            <End Role="labs_tb" EntitySet="labs_tb" />
+            <End Role="exprecords_tb" EntitySet="exprecords_tb" />
+          </AssociationSet>
           <AssociationSet Name="schedule_tb_ibfk_3" Association="jszxDataModel.schedule_tb_ibfk_3">
             <End Role="labs_tb" EntitySet="labs_tb" />
             <End Role="schedule_tb" EntitySet="schedule_tb" />
@@ -274,11 +280,6 @@
             <End Role="terms_tb" EntitySet="terms_tb" />
             <End Role="schedule_tb" EntitySet="schedule_tb" />
           </AssociationSet>
-          <AssociationSet Name="exprecords_tb_ibfk_2" Association="jszxDataModel.exprecords_tb_ibfk_2">
-            <End Role="labs_tb" EntitySet="labs_tb" />
-            <End Role="exprecords_tb" EntitySet="exprecords_tb" />
-          </AssociationSet>
-          <EntitySet Name="poptimes_tb" EntityType="jszxDataModel.poptimes_tb" />
         </EntityContainer>
         <EntityType Name="admins_tb">
           <Key>
@@ -343,8 +344,8 @@
           <Property Name="ExpTerm" Type="Int32" />
           <Property Name="ExpWeek" Type="SByte" />
           <Property Name="ExpWeekDay" Type="SByte" />
+          <Property Name="ExpLabID" Type="Int32" />
           <NavigationProperty Name="terms_tb" Relationship="jszxDataModel.exprecords_tb_ibfk_1" FromRole="exprecords_tb" ToRole="terms_tb" />
-          <Property Type="Int32" Name="ExpLabID" />
           <NavigationProperty Name="labs_tb" Relationship="jszxDataModel.exprecords_tb_ibfk_2" FromRole="exprecords_tb" ToRole="labs_tb" />
         </EntityType>
         <EntityType Name="labs_tb">
@@ -358,8 +359,15 @@
           <Property Name="LabIP" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="LabKeyWord" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="admins_tb" Relationship="jszxDataModel.labs_tb_ibfk_1" FromRole="labs_tb" ToRole="admins_tb" />
-          <NavigationProperty Name="schedule_tb" Relationship="jszxDataModel.schedule_tb_ibfk_3" FromRole="labs_tb" ToRole="schedule_tb" />
           <NavigationProperty Name="exprecords_tb" Relationship="jszxDataModel.exprecords_tb_ibfk_2" FromRole="labs_tb" ToRole="exprecords_tb" />
+          <NavigationProperty Name="schedule_tb" Relationship="jszxDataModel.schedule_tb_ibfk_3" FromRole="labs_tb" ToRole="schedule_tb" />
+        </EntityType>
+        <EntityType Name="poptimes_tb">
+          <Key>
+            <PropertyRef Name="PopTimeID" />
+          </Key>
+          <Property Name="PopTimeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PopTime" Type="Time" Nullable="false" />
         </EntityType>
         <EntityType Name="schedule_tb">
           <Key>
@@ -442,6 +450,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="exprecords_tb_ibfk_2">
+          <End Role="labs_tb" Type="jszxDataModel.labs_tb" Multiplicity="0..1" />
+          <End Role="exprecords_tb" Type="jszxDataModel.exprecords_tb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="labs_tb">
+              <PropertyRef Name="LabID" />
+            </Principal>
+            <Dependent Role="exprecords_tb">
+              <PropertyRef Name="ExpLabID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="schedule_tb_ibfk_3">
           <End Role="labs_tb" Type="jszxDataModel.labs_tb" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -470,31 +490,12 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="exprecords_tb_ibfk_2">
-          <End Type="jszxDataModel.labs_tb" Role="labs_tb" Multiplicity="0..1" />
-          <End Type="jszxDataModel.exprecords_tb" Role="exprecords_tb" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="labs_tb">
-              <PropertyRef Name="LabID" />
-            </Principal>
-            <Dependent Role="exprecords_tb">
-              <PropertyRef Name="ExpLabID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="poptimes_tb">
-          <Key>
-            <PropertyRef Name="PopTimeID" />
-          </Key>
-          <Property Type="Int32" Name="PopTimeID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Time" Name="PopTime" Nullable="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="jszxDataModelStoreContainer" CdmEntityContainer="JszxEntities">
+        <EntityContainerMapping StorageEntityContainer="jszxDataModelStoreContainer" CdmEntityContainer="jszxEntities">
           <EntitySetMapping Name="admins_tb">
             <EntityTypeMapping TypeName="jszxDataModel.admins_tb">
               <MappingFragment StoreEntitySet="admins_tb">
@@ -536,7 +537,6 @@
           <EntitySetMapping Name="exprecords_tb">
             <EntityTypeMapping TypeName="jszxDataModel.exprecords_tb">
               <MappingFragment StoreEntitySet="exprecords_tb">
-                <ScalarProperty Name="ExpLabID" ColumnName="ExpLabID" />
                 <ScalarProperty Name="RecordID" ColumnName="RecordID" />
                 <ScalarProperty Name="CourseName" ColumnName="CourseName" />
                 <ScalarProperty Name="ExpName" ColumnName="ExpName" />
@@ -558,6 +558,7 @@
                 <ScalarProperty Name="ExpTerm" ColumnName="ExpTerm" />
                 <ScalarProperty Name="ExpWeek" ColumnName="ExpWeek" />
                 <ScalarProperty Name="ExpWeekDay" ColumnName="ExpWeekDay" />
+                <ScalarProperty Name="ExpLabID" ColumnName="ExpLabID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -570,6 +571,14 @@
                 <ScalarProperty Name="LabAddr" ColumnName="LabAddr" />
                 <ScalarProperty Name="LabIP" ColumnName="LabIP" />
                 <ScalarProperty Name="LabKeyWord" ColumnName="LabKeyWord" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="poptimes_tb">
+            <EntityTypeMapping TypeName="jszxDataModel.poptimes_tb">
+              <MappingFragment StoreEntitySet="poptimes_tb">
+                <ScalarProperty Name="PopTimeID" ColumnName="PopTimeID" />
+                <ScalarProperty Name="PopTime" ColumnName="PopTime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -595,14 +604,6 @@
                 <ScalarProperty Name="TermStartDay" ColumnName="TermStartDay" />
                 <ScalarProperty Name="TermWeeks" ColumnName="TermWeeks" />
                 <ScalarProperty Name="TermIsUse" ColumnName="TermIsUse" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="poptimes_tb">
-            <EntityTypeMapping TypeName="jszxDataModel.poptimes_tb">
-              <MappingFragment StoreEntitySet="poptimes_tb">
-                <ScalarProperty Name="PopTime" ColumnName="PopTime" />
-                <ScalarProperty Name="PopTimeID" ColumnName="PopTimeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -11,10 +11,10 @@ namespace JszxDataModel
 
         public JszxDataManager()
         {
-            jszxEntity = new JszxEntities();
+            jszxEntity = new jszxEntities();
         }
 
-        JszxEntities jszxEntity;
+        jszxEntities jszxEntity;
 
         #region  获取当前学期
         /// <summary>
@@ -141,6 +141,121 @@ namespace JszxDataModel
             {
                 return jszxEntity.classtimes_tb.OrderByDescending(ct => ct.ClsTmIndex).ToList();
             }
+        }
+        #endregion
+
+        #region 获取实验室列表
+        public List<labs_tb> GetLabs_tbList()
+        {
+            return jszxEntity.labs_tb.OrderBy(lb=>lb.LabID).ToList();
+        }
+        #endregion
+
+        #region 查询指定学期周次工作日节次的记录
+        /// <summary>
+        /// 获取实验机录
+        /// </summary>
+        /// <returns></returns>
+        public List<exprecords_tb> GetExpRecords()
+        {
+            return jszxEntity.exprecords_tb.ToList();
+        }
+        /// <summary>
+        /// 获取实验记录，指定学期
+        /// </summary>
+        /// <param name="term">指定学期ID</param>
+        /// <returns></returns>
+        public List<exprecords_tb> GetExpRecords(int term)
+        {
+            return jszxEntity.exprecords_tb.Where(ep=>ep.ExpTerm==term).OrderByDescending(ep=>ep.PostTime).ToList();
+        }
+        /// <summary>
+        /// 获取实验记录
+        /// </summary>
+        /// <param name="term">指定学期ID</param>
+        /// <param name="lab">实验室ID</param>
+        /// <returns></returns>
+        public List<exprecords_tb> GetExpRecords(int term, int lab)
+        {
+            return jszxEntity.exprecords_tb.Where(ep => ep.ExpTerm == term&&ep.ExpLabID==lab).OrderByDescending(ep => ep.PostTime).ToList();
+        }
+        /// <summary>
+        /// 获取实验记录
+        /// </summary>
+        /// <param name="term">指定学期ID</param>
+        /// <param name="lab">指定实验室ID</param>
+        /// <param name="week">指定周次</param>
+        /// <returns></returns>
+        public List<exprecords_tb> GetExpRecords(int term, int lab,int week)
+        {
+            return jszxEntity.exprecords_tb.Where(ep => ep.ExpTerm == term && ep.ExpLabID == lab && ep.ExpWeek==week).OrderByDescending(ep => ep.PostTime).ToList();
+        }
+        /// <summary>
+        /// 获取实验记录
+        /// </summary>
+        /// <param name="term">指定学期ID</param>
+        /// <param name="lab">指定实验室ID</param>
+        /// <param name="week">指定周次</param>
+        /// <param name="weekDay">指定工作日</param>
+        /// <returns></returns>
+        public List<exprecords_tb> GetExpRecords(int term, int lab, int week,int weekDay)
+        {
+            return jszxEntity.exprecords_tb.Where(ep => ep.ExpTerm == term && ep.ExpLabID == lab && ep.ExpWeek == week && ep.ExpWeekDay==weekDay).OrderByDescending(ep => ep.PostTime).ToList();
+        }
+        /// <summary>
+        /// 获取实验记录
+        /// </summary>
+        /// <param name="term">指定学期ID</param>
+        /// <param name="lab">指定实验室ID</param>
+        /// <param name="week">指定周次</param>
+        /// <param name="weekDay">指定的工作日</param>
+        /// <param name="cls">指定的节次</param>
+        /// <returns></returns>
+        public List<exprecords_tb> GetExpRecords(int term, int lab, int week, int weekDay,int cls)
+        {
+            return jszxEntity.exprecords_tb.Where(ep => ep.ExpTerm == term && ep.ExpLabID == lab && ep.ExpWeek == week && ep.ExpWeekDay == weekDay && ep.ExpCls == cls).OrderByDescending(ep => ep.PostTime).ToList();
+        }
+        #endregion
+
+        #region 保存实验记录
+        public long SaveExpRecord(exprecords_tb exp)
+        {
+            if (exp.RecordID == null || exp.RecordID == 0)
+            {
+                //新添加
+                jszxEntity.exprecords_tb.Add(exp);
+            }
+            else
+            {
+                //x更新
+                exprecords_tb _exp = jszxEntity.exprecords_tb.Where(er => er.RecordID == exp.RecordID).FirstOrDefault();
+                _exp.CourseName = exp.CourseName;
+                _exp.ExpClasses = exp.ExpClasses;
+                _exp.ExpCls = exp.ExpCls;
+                _exp.ExpDate = exp.ExpDate;
+                _exp.ExpLab = exp.ExpLab;
+                _exp.ExpLabID = exp.ExpLabID;
+                _exp.ExpName = exp.ExpName;
+                _exp.ExpTerm = exp.ExpTerm;
+                _exp.ExpWeek = exp.ExpWeek;
+                _exp.ExpWeekDay = exp.ExpWeekDay;
+                _exp.Groups = exp.Groups;
+                _exp.InstrumentStatus = exp.InstrumentStatus;
+                _exp.PerGroup = exp.PerGroup;
+                _exp.PostTime = exp.PostTime;
+                _exp.Problems = exp.Problems;
+                _exp.Realizer = exp.Realizer;
+                _exp.Shoulder = exp.Shoulder;
+                _exp.StudentName = exp.StudentName;
+                _exp.StudentStatus = exp.StudentStatus;
+                _exp.TeacherName = exp.TeacherName;
+                _exp.TeacherNumber = exp.TeacherNumber;
+
+            }
+
+            jszxEntity.SaveChanges();
+            return exp.RecordID;
+
         }
         #endregion
 

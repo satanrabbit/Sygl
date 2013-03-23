@@ -313,7 +313,6 @@ namespace SyglService
         }
         #endregion
 
-
         #region 获取弹窗倒计时时间
         /// <summary>
         /// 获取弹窗倒计时时间
@@ -326,16 +325,11 @@ namespace SyglService
             {
                 List<poptimes_tb> popTimeList= jszxDateManage.GetPopTimes(true);
                 //遍历获取当距离当前最近的弹出时间 
-                TimeSpan latestTime  = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss")); 
-                TimeSpan nowTime = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss")); 
-                foreach(poptimes_tb pop in popTimeList){
-                    if (pop.PopTime>latestTime )
-                    {
-                        latestTime = pop.PopTime;
-                        break;
-                    }
-                }
-                tallies =(int)( latestTime.TotalSeconds - nowTime.TotalSeconds);
+                TimeSpan latestTime ; 
+                TimeSpan nowTime = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss"));
+
+               latestTime= popTimeList.OrderBy(p => p.PopTime).Where(p => p.PopTime > nowTime).FirstOrDefault().PopTime; 
+               tallies =(int)( latestTime.TotalSeconds - nowTime.TotalSeconds);
             }
             return tallies;
         }
@@ -364,5 +358,84 @@ namespace SyglService
             return ClsTimeList;
         }
         #endregion
+
+        #region 获取实验室列表
+       /// <summary>
+       /// 获取实验室列表
+       /// </summary>
+       /// <returns>实验室列表</returns>
+       public List<Lab> GetLabList()
+       {
+           List<Lab> labs = new List<Lab>();
+           using (JszxDataManager jszxDateManage = new JszxDataManager())
+           {
+               List<labs_tb> lab_tbs = jszxDateManage.GetLabs_tbList();
+               
+               foreach (labs_tb lb_tb in lab_tbs)
+               {
+                   Lab lb = new Lab();
+                   lb.LabAddr = lb_tb.LabAddr;
+                   lb.LabAdmin = lb_tb.LabAdmin;
+                   lb.LabID = lb_tb.LabID;
+                   lb.LabIP = lb_tb.LabIP;
+                   lb.LabKeyWord = lb_tb.LabKeyWord;
+                   lb.LabName = lb_tb.LabName;
+
+                   labs.Add(lb);
+               }
+           }
+           return labs;
+       }
+        #endregion
+
+        #region  保存实验记录
+        /// <summary>
+        /// 保存实验记录
+        /// </summary>
+        /// <param name="exp">实验记录信息，不包含实验学期，和实验节次</param>
+        /// <param name="selectedClass">实验记录节次的列表</param>
+        public void SaveExpRecord(Exprecord exp, List<int> selectedClass)
+        {
+            using(JszxDataManager jszxDataManager=new JszxDataManager()){
+                int tm = jszxDataManager.GetCurrentTerm().TermID;
+                exp.ExpTerm = tm;
+                foreach(int cls in selectedClass){
+                    exp.ExpCls =(sbyte)cls;
+                    exprecords_tb exptb = null;
+                    //判断当前课是否填写过
+                    exptb = jszxDataManager.GetExpRecords(tm, (int)exp.ExpLabID, (int)exp.ExpWeek, (int)exp.ExpWeekDay, (int)exp.ExpCls).FirstOrDefault();
+                    if (exptb == null)
+                    {
+                        exptb = new exprecords_tb();
+                    }
+                    exptb.CourseName = exp.CourseName;
+                    exptb.ExpClasses = exp.ExpClasses;
+                    exptb.ExpCls = exp.ExpCls;
+                    exptb.ExpDate = exp.ExpDate;
+                    exptb.ExpLab = exp.ExpLab;
+                    exptb.ExpLabID = exp.ExpLabID;
+                    exptb.ExpName = exp.ExpName;
+                    exptb.ExpTerm = exp.ExpTerm;
+                    exptb.ExpWeek = exp.ExpWeek;
+                    exptb.ExpWeekDay = exp.ExpWeekDay;
+                    exptb.Groups = exp.Groups;
+                    exptb.InstrumentStatus = exp.InstrumentStatus;
+                    exptb.PerGroup = exp.PerGroup;
+                    exptb.PostTime = exp.PostTime;
+                    exptb.Problems = exp.Problems;
+                    exptb.Realizer = exp.Realizer;
+                    exptb.Shoulder = exp.Shoulder;
+                    exptb.StudentName = exp.StudentName;
+                    exptb.StudentStatus = exp.StudentStatus;
+                    exptb.TeacherName = exp.TeacherName;
+                    exptb.TeacherNumber = exp.TeacherNumber;
+
+                    jszxDataManager.SaveExpRecord(exptb);
+
+                }
+            }
+        }
+        #endregion
+ 
     }
 }

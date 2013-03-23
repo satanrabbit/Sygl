@@ -1,4 +1,4 @@
-﻿// Default code generation is disabled for model 'E:\GitHub\Sygl\JszxDataModel\JszxMD.edmx'. 
+﻿// Default code generation is disabled for model 'E:\GitHub\Sygl\JszxDataModel\JszxDM.edmx'. 
 // To enable default code generation, change the value of the 'Code Generation Strategy' designer
 // property to an alternate value. This property is available in the Properties Window when the model is
 // open in the designer.

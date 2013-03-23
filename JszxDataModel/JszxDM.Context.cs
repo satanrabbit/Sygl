@@ -13,10 +13,10 @@ namespace JszxDataModel
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class JszxEntities : DbContext
+    public partial class jszxEntities : DbContext
     {
-        public JszxEntities()
-            : base("name=JszxEntities")
+        public jszxEntities()
+            : base("name=jszxEntities")
         {
         }
     
@@ -30,8 +30,8 @@ namespace JszxDataModel
         public DbSet<courses_tb> courses_tb { get; set; }
         public DbSet<exprecords_tb> exprecords_tb { get; set; }
         public DbSet<labs_tb> labs_tb { get; set; }
+        public DbSet<poptimes_tb> poptimes_tb { get; set; }
         public DbSet<schedule_tb> schedule_tb { get; set; }
         public DbSet<terms_tb> terms_tb { get; set; }
-        public DbSet<poptimes_tb> poptimes_tb { get; set; }
     }
 }

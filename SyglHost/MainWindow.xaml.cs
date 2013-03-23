@@ -107,6 +107,12 @@ namespace SyglHost
         {
             SetPopTime setPopTime = new SetPopTime();
             setPopTime.ShowDialog();
+        }
+
+        private void SqlExcel_Click_1(object sender, RoutedEventArgs e)
+        {
+            ExcelWindow excelWindow = new ExcelWindow();
+            excelWindow.ShowDialog();
         } 
        
     }

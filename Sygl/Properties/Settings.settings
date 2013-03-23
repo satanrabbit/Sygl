@@ -8,8 +8,17 @@
     <Setting Name="AdminPwd" Type="System.String" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
-    <Setting Name="Lab" Type="System.Int32" Scope="User">
+    <Setting Name="LabID" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="LabName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">第六机房</Value>
+    </Setting>
+    <Setting Name="StartCounts" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="ClintPWD" Type="System.String" Scope="User">
+      <Value Profile="(Default)">vYJuHnf/yW0=</Value>
     </Setting>
   </Settings>
 </SettingsFile>

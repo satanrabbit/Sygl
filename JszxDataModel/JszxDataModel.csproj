@@ -55,65 +55,67 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="admins_tb.cs">
-      <DependentUpon>JszxMD.tt</DependentUpon>
+      <DependentUpon>JszxDM.tt</DependentUpon>
     </Compile>
     <Compile Include="classtimes_tb.cs">
-      <DependentUpon>JszxMD.tt</DependentUpon>
+      <DependentUpon>JszxDM.tt</DependentUpon>
     </Compile>
     <Compile Include="courses_tb.cs">
-      <DependentUpon>JszxMD.tt</DependentUpon>
+      <DependentUpon>JszxDM.tt</DependentUpon>
     </Compile>
     <Compile Include="exprecords_tb.cs">
-      <DependentUpon>JszxMD.tt</DependentUpon>
+      <DependentUpon>JszxDM.tt</DependentUpon>
     </Compile>
     <Compile Include="JszxDataManager.cs" />
-    <Compile Include="JszxMD.Context.cs">
+    <Compile Include="JszxDM.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>JszxMD.Context.tt</DependentUpon>
+      <DependentUpon>JszxDM.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="JszxMD.cs">
+    <Compile Include="JszxDM.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>JszxMD.tt</DependentUpon>
+      <DependentUpon>JszxDM.tt</DependentUpon>
     </Compile>
-    <Compile Include="JszxMD.Designer.cs">
+    <Compile Include="JszxDM.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>JszxMD.edmx</DependentUpon>
+      <DependentUpon>JszxDM.edmx</DependentUpon>
     </Compile>
     <Compile Include="labs_tb.cs">
-      <DependentUpon>JszxMD.tt</DependentUpon>
+      <DependentUpon>JszxDM.tt</DependentUpon>
     </Compile>
     <Compile Include="poptimes_tb.cs">
-      <DependentUpon>JszxMD.tt</DependentUpon>
+      <DependentUpon>JszxDM.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="schedule_tb.cs">
-      <DependentUpon>JszxMD.tt</DependentUpon>
+      <DependentUpon>JszxDM.tt</DependentUpon>
     </Compile>
     <Compile Include="terms_tb.cs">
-      <DependentUpon>JszxMD.tt</DependentUpon>
+      <DependentUpon>JszxDM.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
-    <EntityDeploy Include="JszxMD.edmx">
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="JszxDM.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>JszxMD.Designer.cs</LastGenOutput>
+      <LastGenOutput>JszxDM.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="JszxMD.Context.tt">
+    <None Include="JszxDM.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>JszxMD.edmx</DependentUpon>
-      <LastGenOutput>JszxMD.Context.cs</LastGenOutput>
+      <DependentUpon>JszxDM.edmx</DependentUpon>
+      <LastGenOutput>JszxDM.Context.cs</LastGenOutput>
     </None>
-    <None Include="JszxMD.edmx.diagram">
-      <DependentUpon>JszxMD.edmx</DependentUpon>
+    <None Include="JszxDM.edmx.diagram">
+      <DependentUpon>JszxDM.edmx</DependentUpon>
     </None>
-    <None Include="JszxMD.tt">
+    <None Include="JszxDM.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>JszxMD.edmx</DependentUpon>
-      <LastGenOutput>JszxMD.cs</LastGenOutput>
+      <DependentUpon>JszxDM.edmx</DependentUpon>
+      <LastGenOutput>JszxDM.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

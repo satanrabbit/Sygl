@@ -77,6 +77,20 @@ namespace SyglService.Interface
         /// <returns>课节时间列表</returns>
         [OperationContract]
         List<ClassTime> GetClassTimeList();
+
+        /// <summary>
+        /// 获取实验室列表
+        /// </summary>
+        /// <returns>实验室列表</returns>
+        [OperationContract]
+        List<Lab> GetLabList();
+        /// <summary>
+        /// 保存实验记录
+        /// </summary>
+        /// <param name="exp">实验记录信息，不包含实验学期，和实验节次</param>
+        /// <param name="selectedClass">实验记录节次的列表</param>
+        [OperationContract]
+        void SaveExpRecord(Exprecord exp, List<int> selectedClass);
         #endregion
 
     }

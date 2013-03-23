@@ -16,8 +16,8 @@ namespace JszxDataModel
     {
         public labs_tb()
         {
-            this.schedule_tb = new HashSet<schedule_tb>();
             this.exprecords_tb = new HashSet<exprecords_tb>();
+            this.schedule_tb = new HashSet<schedule_tb>();
         }
     
         public int LabID { get; set; }
@@ -28,7 +28,7 @@ namespace JszxDataModel
         public string LabKeyWord { get; set; }
     
         public virtual admins_tb admins_tb { get; set; }
-        public virtual ICollection<schedule_tb> schedule_tb { get; set; }
         public virtual ICollection<exprecords_tb> exprecords_tb { get; set; }
+        public virtual ICollection<schedule_tb> schedule_tb { get; set; }
     }
 }

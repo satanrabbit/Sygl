@@ -23,7 +23,9 @@
                 </Grid.RowDefinitions>
                 <Button Height="35" Margin="10,0" Name="ControlServiceBtn" Click="ControlServiceBtn_Click_1">启动服务</Button>
                 <Button Height="35" Width="60" Name="SetTermBtn" Click="SetTermBtn_Click_1" Grid.Row="0" Grid.Column="1" >设置学期</Button>
-                <Button Height="35" Width="60" Name="SetPopTimeBtn" Click="SetPopTimeBtn_Click_1" Grid.Row="0" Grid.Column="2" >设置弹出时间</Button>
+                <Button Height="35" Name="SetPopTimeBtn" Click="SetPopTimeBtn_Click_1" Grid.Row="0" Grid.Column="2" Margin="10,9" >设置弹出时间</Button>
+                <Button Height="35" Width="80" Name="SqlExcel" Grid.Column="3" Click="SqlExcel_Click_1">课表导入</Button>
+                <Button Height="35" Width="80" Name="SetSchedule" Grid.Row="1" Grid.Column="0">课表设置</Button>
             </Grid>
         </Grid>
     </Border>

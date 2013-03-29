@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text; 
-using MySql.Data.Entity; 
 
 namespace JszxDataModel
 {
@@ -14,7 +13,7 @@ namespace JszxDataModel
             jszxEntity = new jszxEntities();
         }
 
-        jszxEntities jszxEntity;
+        public jszxEntities jszxEntity;
 
         #region  获取当前学期
         /// <summary>
@@ -220,7 +219,7 @@ namespace JszxDataModel
         #region 保存实验记录
         public long SaveExpRecord(exprecords_tb exp)
         {
-            if (exp.RecordID == null || exp.RecordID == 0)
+            if (exp.RecordID == 0)
             {
                 //新添加
                 jszxEntity.exprecords_tb.Add(exp);

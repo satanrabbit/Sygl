@@ -1,0 +1,173 @@
+﻿<Window x:Class="Sygl.FeedbackWindows"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="FeedbackWindows" Height="180" Width="280" WindowStyle="None"
+        Background="{x:Null}" AllowsTransparency="True" ShowInTaskbar="False" 
+        MouseDown="Window_MouseDown_1"
+        Topmost="True" WindowStartupLocation="CenterScreen" >
+    <Window.Resources>
+        <!--窗口背景样式-->
+        <Style x:Key="AboutWindowBorder" TargetType="Border">
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="BorderBrush" Value="#FF0C456C"></Setter>
+            <Setter Property="CornerRadius" Value="5"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#FF000000" 
+                                      BlurRadius="10" 
+                                      Opacity="1" />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/Resource/bg.jpg"></ImageBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--评分五角星样式-->
+        <Style x:Key="StarStyle"  TargetType="Button">
+            <Setter Property="Width" Value="26"></Setter>
+            <Setter Property="Height" Value="26"></Setter>
+            <Setter Property="Margin" Value="5,0"></Setter> 
+            <Setter Property="Cursor" Value="Hand"></Setter>
+        </Style>
+        <Style x:Key="StarStyle0"  TargetType="Button" BasedOn="{StaticResource StarStyle}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="BackBorder">
+                            <Border.Background>
+                                <ImageBrush x:Name="starImg" ImageSource="Resource/star.png" Stretch="None" 
+                                            Viewport="0,0,52,26" ViewportUnits="Absolute"  AlignmentX="Left" AlignmentY="Top"/>
+                            </Border.Background>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="StarStyle1"  TargetType="Button" BasedOn="{StaticResource StarStyle}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="BackBorder">
+                            <Border.Background>
+                                <ImageBrush x:Name="starImg" ImageSource="Resource/star.png" Stretch="None" 
+                                            Viewport="-26,0,52,26" ViewportUnits="Absolute"  AlignmentX="Left" AlignmentY="Top"/>
+                            </Border.Background>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Border Style="{StaticResource ResourceKey=AboutWindowBorder}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+            </Grid.RowDefinitions>
+            <!--第一行，标题栏内容-->
+            <Grid>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="#FFFF" VerticalAlignment="Center" Margin="20,0,0,0">反馈</TextBlock>
+                </StackPanel>
+                <!--窗口控制按钮区域-->
+                <StackPanel Orientation="Horizontal" Grid.Row="0" 
+                            HorizontalAlignment="Right" VerticalAlignment="Top"
+                            Height="25">
+                    <Button Style="{StaticResource ResourceKey=WindowCloseButtonStyle}" Name="CloseBtn" ToolTip="关闭" 
+                             Click="CloseBtn_Click_1">
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <!--Feedback Content-->
+            <StackPanel Grid.Row="1" Background="#DFFF">
+                <StackPanel   Name="FromSign">
+                    <Grid   Height="50" Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="50"></ColumnDefinition>
+                            <ColumnDefinition Width="220"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="1"  Height="40" Width="40" Source="/Resource/icon_done(big).png" Margin="5"></Image>
+                    <TextBlock  Grid.Column="2" HorizontalAlignment="Center" LineHeight="25" Grid.ColumnSpan="1" VerticalAlignment="Center" FontSize="18" Foreground="#FF044704">
+    您的记录保存成功! 
+                       <TextBlock Visibility="Collapsed" FontSize="12" LineHeight="12" Margin="0 ,5,0,0" Foreground="#FF0E665E">
+    我们诚挚的邀请您填写一下反馈信息
+                           </TextBlock> 
+                        </TextBlock>
+                    </Grid>
+                </StackPanel>
+                <Grid Visibility="Collapsed" Height="220">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="33"></RowDefinition>
+                        <RowDefinition Height="33"></RowDefinition>
+                        <RowDefinition Height="33"></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="190" ></ColumnDefinition>
+                        <ColumnDefinition ></ColumnDefinition> 
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="#FF0D1347">评价我们：</TextBlock>
+                    <TextBlock Grid.Row="1" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="#FF0D1347">我们的工作：</TextBlock>
+                    <WrapPanel  VerticalAlignment="Center" Grid.Column="1" Grid.Row="1">
+                        <Button Name="WorkStar1" MouseEnter="WorkStar1_MouseEnter_1" MouseLeave="WorkStar1_MouseLeave_1" Click="WorkStar1_Click_1" Style="{StaticResource ResourceKey=StarStyle0}"></Button>
+                        <Button Name="WorkStar2" MouseEnter="WorkStar2_MouseEnter_1" MouseLeave="WorkStar2_MouseLeave_1" Click="WorkStar2_Click_1" Style="{StaticResource ResourceKey=StarStyle0}"></Button>
+                        <Button Name="WorkStar3" MouseEnter="WorkStar3_MouseEnter_1" MouseLeave="WorkStar3_MouseLeave_1" Click="WorkStar3_Click_1" Style="{StaticResource ResourceKey=StarStyle0}"></Button>
+                        <Button Name="WorkStar4" MouseEnter="WorkStar4_MouseEnter_1" MouseLeave="WorkStar4_MouseLeave_1" Click="WorkStar4_Click_1" Style="{StaticResource ResourceKey=StarStyle0}"></Button>
+                        <Button Name="WorkStar5" MouseEnter="WorkStar5_MouseEnter_1" MouseLeave="WorkStar5_MouseLeave_1" Click="WorkStar5_Click_1" Style="{StaticResource ResourceKey=StarStyle0}"></Button>
+                    </WrapPanel>
+                    <TextBlock Name="WorkStarTip" Grid.Row="1" Grid.Column="2" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#FF0D1347"></TextBlock>
+                    <TextBlock Grid.Row="2" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="#FF0D1347">本记录系统：</TextBlock>
+                    <WrapPanel  VerticalAlignment="Center" Grid.Column="1" Grid.Row="2">
+                        <Button Name="SoftStar1" MouseEnter="SoftStar1_MouseEnter_1" MouseLeave="SoftStar1_MouseLeave_1" Click="SoftStar1_Click_1" Style="{StaticResource ResourceKey=StarStyle0}"></Button>
+                        <Button Name="SoftStar2" MouseEnter="SoftStar2_MouseEnter_1" MouseLeave="SoftStar2_MouseLeave_1" Click="SoftStar2_Click_1" Style="{StaticResource ResourceKey=StarStyle0}"></Button>
+                        <Button Name="SoftStar3" MouseEnter="SoftStar3_MouseEnter_1" MouseLeave="SoftStar3_MouseLeave_1" Click="SoftStar3_Click_1" Style="{StaticResource ResourceKey=StarStyle0}"></Button>
+                        <Button Name="SoftStar4" MouseEnter="SoftStar4_MouseEnter_1" MouseLeave="SoftStar4_MouseLeave_1" Click="SoftStar4_Click_1" Style="{StaticResource ResourceKey=StarStyle0}"></Button>
+                        <Button Name="SoftStar5" MouseEnter="SoftStar5_MouseEnter_1" MouseLeave="SoftStar5_MouseLeave_1" Click="SoftStar5_Click_1" Style="{StaticResource ResourceKey=StarStyle0}"></Button>
+                    </WrapPanel>
+                    <TextBlock Name="SoftStarTip" Grid.Row="2" Grid.Column="2" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#FF0D1347"></TextBlock>
+                    <TextBlock Grid.Row="3" FontSize="14" Foreground="#FF0D1347" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center">反<LineBreak />馈<LineBreak />信<LineBreak />息</TextBlock>
+                    <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="33"></RowDefinition> 
+                            <RowDefinition ></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"></ColumnDefinition>
+                            <ColumnDefinition ></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">类型:</TextBlock>
+                        <WrapPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" >
+                            <RadioButton  Margin="15,0" GroupName="FeedbackType" IsChecked="True">工作建议</RadioButton>
+                            <RadioButton  Margin="15,0"  GroupName="FeedbackType">软件问题</RadioButton>
+                        </WrapPanel>
+                        <TextBlock VerticalAlignment="Center" Grid.Row="1" HorizontalAlignment="Center">内容:</TextBlock>
+                        <TextBox Name="FeedbackContent" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1"></TextBox>
+                    </Grid>
+                </Grid>
+            </StackPanel> 
+            
+            <!--状态栏内容-->
+            <Grid Grid.Row="2" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition ></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center" Name="SubmitFeedback" Style="{StaticResource ResourceKey=SkyBlueBtnStyle}" 
+                        Foreground="#FF200B66"  
+                        Click="SubmitFeedback_Click_1" >确定</Button>
+                <Button Visibility="Collapsed" Grid.Column="2" Name="CancelFeedback" Style="{StaticResource ResourceKey=SkyBlueBtnStyle}" 
+                        Foreground="#FF200B66"  
+                                       >取消反馈</Button>
+
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

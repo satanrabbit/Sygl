@@ -18,9 +18,15 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Button Name="SelectExcelFile" Width="80" Height="30" Click="SelectExcelFile_Click_1">选择文件</Button>
-        <TextBox Name="ExcleFile" Grid.Column="1" Grid.ColumnSpan="3" Height="26" TextAlignment="Left" VerticalContentAlignment="Center"></TextBox>
+        <TextBox IsReadOnly="True" Name="ExcleFile" Grid.Column="1" Grid.ColumnSpan="3" Height="26" TextAlignment="Left" VerticalContentAlignment="Center"></TextBox>
         <Label Grid.Row="1" Width="80" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Right">选择表：</Label>
         <ComboBox Name="ExcelTable" Height="30" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"></ComboBox>
         <TextBlock Name="TipTextBlock" TextWrapping="Wrap" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="5" Background="#FFF0F0F0">信息显示区</TextBlock>
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="4" Grid.Row="2"  >
+            <Label VerticalContentAlignment="Center">导入进度:</Label>
+            <ProgressBar Name="SwitchProgressBar" Height="15" Width="400"></ProgressBar>
+        </StackPanel>
+        <TextBlock Name="SwitchTip" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" TextAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center"></TextBlock>
+        <Button Grid.Column="3" Grid.Row="3" Width="100" Height="30" Name="StartInportBtn" Click="StartInportBtn_Click_1">开始导入</Button>
     </Grid> 
 </Window>

@@ -94,5 +94,15 @@ namespace Sygl.Properties {
                 this["ClintPWD"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public string jszxEntities {
+            get {
+                return ((string)(this["jszxEntities"]));
+            }
+        }
     }
 }

@@ -6,7 +6,7 @@
         mc:Ignorable="d" x:Class="Sygl.MainWindow"
         Title="实验记录系统" Height="650" Width="800" 
         WindowStartupLocation="CenterScreen" WindowStyle="None"
-        Visibility="Hidden"
+        Visibility="Visible"
         Background="{x:Null}" AllowsTransparency="True" MouseDown="Window_MouseDown_1"
         >
     <Window.Resources>
@@ -438,7 +438,7 @@
                 </Grid.ColumnDefinitions>
                 <!--关于和反馈按钮区-->
                 <StackPanel Grid.Column="3" Orientation="Horizontal" FlowDirection="RightToLeft">
-                    <Button Content="反馈" Style="{StaticResource ResourceKey=ButtonNoStyle}" >
+                    <Button Visibility="Collapsed" Name="FeedbackBtn" Click="FeedbackBtn_Click_1" Content="反馈" Style="{StaticResource ResourceKey=ButtonNoStyle}" >
                     </Button>
                     <Button Content="关于" Width="0" Name="AboutBtn"  Style="{StaticResource ResourceKey=ButtonNoStyle}">
                         <Button.Triggers>

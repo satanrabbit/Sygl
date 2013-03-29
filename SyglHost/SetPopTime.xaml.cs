@@ -32,5 +32,25 @@ namespace SyglHost
             PopTimeDG.ItemsSource = jszxDataManager.GetPopTimes(true);
         }
 
+        private void AddPopBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void EditBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Edit");
+        }
+
+        private void DeleteBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
 }

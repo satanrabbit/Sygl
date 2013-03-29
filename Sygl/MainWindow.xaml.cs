@@ -210,6 +210,11 @@ namespace Sygl
             try
             {
                 Proxy.SaveExpRecord(expSubmit, SelectedClass);
+                //提示保存成功和反馈意见窗口 
+                FeedbackWindows feedbackWindow = new FeedbackWindows(true);
+                feedbackWindow.ShowDialog();
+               this.Hide();
+                
             }
             catch (Exception ex)
             {
@@ -249,7 +254,7 @@ namespace Sygl
                         catch (Exception ex)
                         {
                             channelFlag = false;
-                            TimeCounts = TIMECOUNTS;
+                            TimeCounts = 60;
                             this.ServiceStatus.Text = "服务器连接错误,1分钟后重试:"+ ex.Message;
                         }
                     }
@@ -724,6 +729,12 @@ namespace Sygl
             }
         }
         #endregion
+
+        private void FeedbackBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            FeedbackWindows feedbackWindow = new FeedbackWindows(false);
+            feedbackWindow.ShowDialog();
+        }
 
     }
 

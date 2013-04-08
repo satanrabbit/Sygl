@@ -201,14 +201,14 @@
             </StackPanel>-->
             <!--Logo区域-->
             <StackPanel Orientation="Horizontal">
-                <Label FontSize="14"  FontWeight="SemiBold" Foreground="White" Content="实验记录系统" VerticalAlignment="Center"/>
+                <Label FontSize="14"  FontWeight="SemiBold" Foreground="White" Content="计算中心实验记录系统" VerticalAlignment="Center"/>
             </StackPanel>
             <!--Logo区域 结束-->
             <!--窗口控制按钮区域-->
             <StackPanel Orientation="Horizontal"  Grid.Column="3" Grid.Row="0" 
                         HorizontalAlignment="Right" VerticalAlignment="Top"
                         Height="25">
-                <Button Style="{StaticResource ResourceKey=WindowSetButtonStyle}" Name="SetBtn" ToolTip="设置"/>
+                <Button Style="{StaticResource ResourceKey=WindowSetButtonStyle}" Name="SetBtn" ToolTip="设置" Click= "SetBtn_Click_1"/>
                 <Button Style="{StaticResource ResourceKey=WindowMiniButtonStyle}" Name="MiniBtn" ToolTip="最小化" Click="MiniBtn_Click_1" />
                 <Button Style="{StaticResource ResourceKey=WindowMaxButtonStyle}" Name="MaxBtn" ToolTip="最大化"  />
                 <Button Style="{StaticResource ResourceKey=WindowCloseButtonStyle}" Name="CloseBtn" ToolTip="关闭" 
@@ -222,8 +222,9 @@
                         Grid.Row="0" Grid.RowSpan="2"
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Center">
-                <Button Style="{StaticResource ResourceKey=MenuButtonBaseStyle}" Content="填写" />
-                <Button Style="{StaticResource ResourceKey=MenuButtonSearchBaseStyle}" Content="查询"/>
+                <Button Style="{StaticResource ResourceKey=MenuButtonBaseStyle}" Content="填写" Name="SignBtn" Click="SignBtn_Click_1" />
+                <Button Style="{StaticResource ResourceKey=MenuButtonSearchBaseStyle}" Content="查询" Name="SearchBtn" />
+                <!--Click="SearchBtn_Click_1"-->
             </StackPanel>
             <!--操作按钮区域 结束-->
             <!--主面板区域背景设置-->
@@ -289,7 +290,7 @@
                 
                 <Grid DockPanel.Dock="Top">
                     <!--填写区域面板 -->
-                    <DockPanel Name="SignPanel" Visibility="Visible" >
+                    <DockPanel   Name="SignPanel" >
                         <Grid Width="720" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="110"></ColumnDefinition>
@@ -421,8 +422,104 @@
                     </DockPanel>
                     <!--填写区域面板 结束-->
                     <!--查询内容面板区域-->
-                    <DockPanel Name="SearchPanel" Visibility="Hidden">
-
+                    <DockPanel Name="SearchPanel"  Visibility="Hidden" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="80"></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="40"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80"></ColumnDefinition>
+                                    <ColumnDefinition ></ColumnDefinition>
+                                    <ColumnDefinition Width="80"></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition Width="80"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label HorizontalAlignment="Right" VerticalAlignment="Center" >实验室:</Label>
+                                <ComboBox Grid.Column="1"  Name="SearchLab"
+                                          HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                          DisplayMemberPath="LabName"
+                                          SelectedValuePath="LabID"
+                                          Width="100"></ComboBox>
+                                <Label HorizontalAlignment="Right" Grid.Column="2" VerticalAlignment="Center">学期:</Label>
+                                <ComboBox Grid.Column="3"  Name="SearchTerm" 
+                                          VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                          DisplayMemberPath="TermYear"
+                                          SelectedValuePath="TermID"
+                                          Width="120"></ComboBox>
+                                <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">上课时间:</Label>
+                                <WrapPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center">第</Label>
+                                        <ComboBox Name="SearchWeek" Width="40"></ComboBox>
+                                    <Label>周 - 周</Label><ComboBox Name="SearchWeekday" Width="40"></ComboBox>
+                                    <Label>-</Label> <ComboBox Name="SearchCls" Width="60"></ComboBox>                                    
+                                </WrapPanel>
+                                <Button Name="SearchSubmitByn" Click="SearchSubmitByn_Click_1" 
+                                        Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" 
+                                        VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                        Width="60" Height="32">查询</Button>
+                            </Grid>
+                            <StackPanel Grid.Row="1">
+                                <DataGrid Name="SearchResultDG" 
+                                    AutoGenerateColumns="False"   Margin="0,0,0,0" 
+                CanUserAddRows="False" IsReadOnly ="True">
+                                    <DataGrid.ColumnHeaderStyle>
+                                        <Style TargetType="DataGridColumnHeader">
+                                            <Setter Property="Background" Value="#FF1050DA"></Setter>
+                                            <Setter Property="Foreground" Value="#FFF0F0F0"/>
+                                            <Setter Property="FontSize" Value="13" />
+                                            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                                            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                                            <Setter Property="Height" Value="25"></Setter>
+                                            <Setter Property="BorderThickness" Value="1"></Setter>
+                                            <Setter Property="BorderBrush" >
+                                                <Setter.Value>
+                                                    <SolidColorBrush Color="#FAAA">                                                        
+                                                    </SolidColorBrush>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </DataGrid.ColumnHeaderStyle>
+                                    <DataGrid.RowStyle>
+                                        <Style TargetType="DataGridRow">
+                                            <Setter Property="Background" Value="LightBlue" />
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="LightGray"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </DataGrid.RowStyle>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="序号" Width="40" Binding="{Binding RecordID,Mode=OneWay}" Foreground="#FF1050DA">                                           
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Header="课程名称" Width="150" Binding="{Binding CourseName,Mode=OneWay}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="实验名称" Width="150" Binding="{Binding ExpName,Mode=OneWay}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="教师姓名" Width="80" Binding="{Binding TeacherName,Mode=OneWay}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="学期" Width="80" Binding="{Binding CourseName,Mode=OneWay}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="周次" Width="60" Binding="{Binding CourseName,Mode=OneWay}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="工作日" Width="60" Binding="{Binding CourseName,Mode=OneWay}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="节次" Width="60" Binding="{Binding CourseName,Mode=OneWay}"></DataGridTextColumn>
+                                        <DataGridTemplateColumn Header="查看" Width="*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <WrapPanel>
+                                                        <Button Margin="5" Width="40" Name="DetailBtn" Click="DetailBtn_Click_1" Tag="{Binding}" >详细</Button>
+                                                    </WrapPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                
+                                </DataGrid>
+                            </StackPanel>
+                        </Grid>
                     </DockPanel>
                     <!--查询内容面板区域 结束-->
                 </Grid>
@@ -462,7 +559,7 @@
                     </Button>
                 </StackPanel>
                 <!--系统状态区-->
-                <TextBlock Name="ServiceStatus" Grid.Column="1" Grid.ColumnSpan="2" Foreground="#FFFF" TextAlignment="Center" VerticalAlignment="Center" TextDecorations="Underline" >已连接服务器</TextBlock>
+                <TextBlock Name="ServiceStatus" Grid.Column="1" Grid.ColumnSpan="2" Foreground="#FFFF" TextAlignment="Center" VerticalAlignment="Center" TextDecorations="Underline" >等待连接服务器</TextBlock>
             </Grid>
             <!--底部状态栏 结束-->
         </Grid>

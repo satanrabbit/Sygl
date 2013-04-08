@@ -1,23 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using SyglService;
 using System.ServiceModel;
 using System.Windows.Threading;
 using SyglService.Interface;
-using JszxDataModel;
-using System.Drawing;
 using System.Windows.Forms;
 namespace Sygl
 {
@@ -32,13 +20,17 @@ namespace Sygl
             InitialTray();
             TimeCounts=TIMECOUNTS = Properties.Settings.Default.StartCounts;
             StartTimer();
+            this.Topmost = true;
         }
 
         /// <summary>
         /// 启动后开始连接服务器的时间（秒数）
         /// </summary>
         int TIMECOUNTS;
-
+        /// <summary>
+        /// 链接服务是否成功
+        /// </summary>
+        sbyte channelFlag = 0;
         /// <summary>
         /// 窗口查询时间间隔(秒数)
         /// </summary>
@@ -73,6 +65,12 @@ namespace Sygl
         /// 当前选中的课节
         /// </summary>
         List<int> SelectedClass;
+        /// <summary>
+        /// 当前课是否填写
+        /// </summary>
+        bool isSign = true;
+
+        private SearchRecordParam searchRecordParam;
 
         #region 客户端处理
         /// <summary>
@@ -83,7 +81,14 @@ namespace Sygl
         private void Close_Button_Click_1(object sender, RoutedEventArgs e)
         {
             //检查是否填写
-            this.Close();
+            if (isSign)
+            {
+                this.Hide();
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("请提交实验记录后关闭！");
+            }
         }
         /// <summary>
         /// 窗口拖动
@@ -213,6 +218,8 @@ namespace Sygl
                 //提示保存成功和反馈意见窗口 
                 FeedbackWindows feedbackWindow = new FeedbackWindows(true);
                 feedbackWindow.ShowDialog();
+
+                isSign = true;
                this.Hide();
                 
             }
@@ -231,19 +238,31 @@ namespace Sygl
         /// </summary>
         private void StartTimer()
         {
-            bool channelFlag = false;
+           
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(1000);
             timer.Tick += delegate
             {
-                if (!channelFlag)
+                if (channelFlag!=1)
                 {
+                    #region 连接服务
+                    if (channelFlag == 0)
+                    {
+                        this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒连接服务器！";
+                    }
+                    else
+                    {
+                        if (channelFlag == 2)
+                        {
+                            this.ServiceStatus.Text = "服务器连接错误," + TimeCounts.ToString() + "秒后重试！";
+                        }
+                    }
                     if (TimeCounts == 0)
                     {
                         try
                         {
                             CreatProxy();
-                            channelFlag = true;
+                            channelFlag = 1;
                             this.ServiceStatus.Text = "已经连接服务器！";
                             TimeCounts = Proxy.GetPopTimeTallies();
                             if (TimeCounts < 60)
@@ -253,89 +272,116 @@ namespace Sygl
                         }
                         catch (Exception ex)
                         {
-                            channelFlag = false;
+                            channelFlag = 2;
                             TimeCounts = 60;
-                            this.ServiceStatus.Text = "服务器连接错误,1分钟后重试:"+ ex.Message;
                         }
                     }
+                    #endregion
+
                 }
                 else
                 {
-
-                    if ((!this.IsVisible) || this.WindowState == WindowState.Minimized)
+                    if (TimeCounts == 0)
                     {
-                        if (TimeCounts == 0)
+                        #region 弹出填写
+                        //获取下一次弹出时间
+                        TimeCounts = Proxy.GetPopTimeTallies();
+                        //显示窗口
+                        this.Show();
+                        if (tipWindow == null)
                         {
-                            //获取下一次弹出时间
-                            TimeCounts = Proxy.GetPopTimeTallies();
-                            //显示窗口
-                            this.Show();
-                            if (tipWindow == null)
+                            tipWindow = new TipWindow(this);
+                        }
+                        tipWindow.Hide();
+                        #endregion
+                    }
+                    else
+                    {
+                        if (TimeCounts == 60)
+                        {
+                            #region 查询填写状态
+                            expRecordWithFlag = Proxy.GetExpRecordWithFlag(1);
+                            //初始化填写窗口
+                            switch (expRecordWithFlag.SignFlag)
                             {
-                                tipWindow = new TipWindow(this);
+                                case 0: //无课，不需填写
+                                    isSign = true;
+                                    this.ServiceStatus.Text = "当前无课，不需填写！";
+                                    break;
+                                case 1: //已经填写
+                                    isSign = true;
+                                    this.ServiceStatus.Text = "已经填写记录！";
+                                    break;
+                                case 2: //需要核对
+                                    isSign = false;
+                                        this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后核对记录！";
+                                        SetForm(expRecordWithFlag.ExpRecord); 
+                                    break;
+                                case 3: //新填写
+                                    isSign = false;
+                                    this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后填写记录！";
+                                    SetForm(expRecordWithFlag.ExpRecord);
+                                    break;
+                                default:
+                                    break;
                             }
-                            tipWindow.Hide();
+                            #endregion
                         }
                         else
                         {
-                            if (TimeCounts == 60)
+                            if (TimeCounts <= 30)
                             {
-                                expRecordWithFlag = Proxy.GetExpRecordWithFlag(1);
-                                //初始化填写窗口
+                                #region 提示填写
+                                
                                 switch (expRecordWithFlag.SignFlag)
                                 {
                                     case 0: //无课，不需填写
-                                        
+                                        this.ServiceStatus.Text = "当前无课，不需填写！等待" + (TimeCounts - 60).ToString() + "秒后查询服务！";
                                         break;
                                     case 1: //已经填写
+                                        this.ServiceStatus.Text = "已经填写记录！等待" + (TimeCounts - 60).ToString() + "秒后查询服务！";
                                         break;
                                     case 2: //需要核对
-                                        SetForm(expRecordWithFlag.ExpRecord);
-                                        break;
-                                    case 3: //新填写
-                                        SetForm(expRecordWithFlag.ExpRecord);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                            else
-                            {
-                                if (TimeCounts <= 30)
-                                {
-                                    switch (expRecordWithFlag.SignFlag)
-                                    {
-                                        case 0: //无课，不需填写
-                                            //发布时去除 start
-                                            if (tipWindow == null)
-                                            {
-                                                tipWindow = new TipWindow(this);
-                                            }
-                                            tipWindow.windowUpAnimation("无课发布时去掉功能：", "不需填写");
-                                            tipWindow.timeTip.Text = TimeCounts.ToString();
-                                            // 发布时去除 end
-                                            break;
-                                        case 1: //已经填写
-                                            break;
-                                        case 2: //需要核对
+                                        this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后核对记录！";
+                                        if (this.Visibility == Visibility.Visible || this.WindowState == WindowState.Minimized)
+                                        {
                                             if (tipWindow == null)
                                             {
                                                 tipWindow = new TipWindow(this);
                                             }
                                             tipWindow.windowUpAnimation("当前记录信息不一致，距离核对记录还有：", "立刻核对");
                                             tipWindow.timeTip.Text = TimeCounts.ToString();
-                                            break;
-                                        case 3: //新填写
+                                        }
+                                        break;
+                                    case 3: //新填写
+                                        this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后填写记录！";
+                                        if (this.Visibility == Visibility.Visible || this.WindowState == WindowState.Minimized)
+                                        {
                                             if (tipWindow == null)
                                             {
                                                 tipWindow = new TipWindow(this);
                                             }
                                             tipWindow.windowUpAnimation("距离填写本次实验记录还有", "立刻填写");
                                             tipWindow.timeTip.Text = TimeCounts.ToString();
-                                            break;
-                                        default:
-                                            break;
+                                        }
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                #endregion
+                            }
+                            else
+                            {
+                                if (30 < TimeCounts && TimeCounts < 60)
+                                {
+                                    if (!isSign)
+                                    {
+                                        this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后填写记录！";
                                     }
+                                }
+                                else
+                                {
+                                    this.ServiceStatus.Text = "当前不需填写，等待" + (TimeCounts - 60).ToString() + "秒后查询服务！";
                                 }
                             }
                         }
@@ -350,7 +396,15 @@ namespace Sygl
         #region 最小化按钮事件
         private void MiniBtn_Click_1(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            //检查是否填写
+            if (isSign)
+            {
+                this.Hide();
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("请提交实验记录后关闭！");
+            }
         }
         #endregion
 
@@ -650,9 +704,7 @@ namespace Sygl
             System.Windows.Forms.MenuItem SetMenu = new System.Windows.Forms.MenuItem("设置");
             SetMenu.Click += new EventHandler(SetMenu_Click);
 
-            //System.Windows.Forms.MenuItem SetMenu = new System.Windows.Forms.MenuItem("设置");
-            //System.Windows.Forms.MenuItem menu = new System.Windows.Forms.MenuItem("菜单", new System.Windows.Forms.MenuItem[] { menu1});
-
+            
             //退出菜单项
             System.Windows.Forms.MenuItem exit = new System.Windows.Forms.MenuItem("exit");
             exit.Click += new EventHandler(exit_Click);
@@ -691,16 +743,6 @@ namespace Sygl
             if(lg.Login){
             System.Windows.Application.Current.Shutdown();
             }
-
-            //if (System.Windows.MessageBox.Show("确定要关闭吗?",
-            //                                    "退出",
-            //                                    MessageBoxButton.YesNo,
-            //                                    MessageBoxImage.Question,
-            //                                    MessageBoxResult.No) == MessageBoxResult.Yes)
-            //{
-            //    notifyIcon.Dispose();
-            //    System.Windows.Application.Current.Shutdown();
-            //}
         }
 
         private void SetMenu_Click(object sender,EventArgs e)
@@ -734,6 +776,61 @@ namespace Sygl
         {
             FeedbackWindows feedbackWindow = new FeedbackWindows(false);
             feedbackWindow.ShowDialog();
+        }
+
+        private void SignBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.SignPanel.Visibility = Visibility.Visible;
+            this.SearchPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void SearchBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.SignPanel.Visibility = Visibility.Collapsed;
+            this.SearchPanel.Visibility = Visibility.Visible;
+            if (ChannelFactory == null)
+            {
+                try
+                {
+                    CreatProxy();
+                    channelFlag = 1;
+                }
+                catch (Exception ex)
+                {
+
+                    System.Windows.MessageBox.Show("服务器链接错误，请稍后再试：\n"+ex.Message);
+                    return ;
+                }
+            }
+            //初始化查询信息
+            searchRecordParam = new SearchRecordParam();
+            //实验室列表
+            this.SearchLab.ItemsSource = Proxy.GetLabList();
+            //学期列表
+            this.SearchTerm.ItemsSource = Proxy.GetTermList();
+            
+        }
+
+        private void SearchSubmitByn_Click_1(object sender, RoutedEventArgs e)
+        {
+            //获取查询学期 
+            //获取查询实验室
+            //获取查询周次
+            //获取查询工作日
+            //获取查询节次
+            //获取查询页数
+            //获取查询显示页数
+            //Proxy.GetPageRecords();
+        }
+
+        private void DetailBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SetBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            SetWindow setWindow = new SetWindow();
         }
 
     }

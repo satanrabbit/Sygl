@@ -436,6 +436,42 @@ namespace SyglService
             }
         }
         #endregion
- 
+
+        #region 获取查询的记录信息 
+        public PageRecord GetPageRecords(SearchRecordParam pm)
+        {
+            PageRecord pageRecord = new PageRecord();
+            using (JszxDataManager jszxDataManager = new JszxDataManager())
+            {
+               PageExpRecord _pageRecord = jszxDataManager.GetPageExpRecords(pm.term,pm.lab,pm.week,pm.weekday,pm.cls,pm.teacherNum,pm.page,pm.pageSize);
+               pageRecord.ExpRecordList = _pageRecord.ExpRecordList;
+               pageRecord.Page = _pageRecord.Page;
+               pageRecord.Pages = _pageRecord.Pages;
+               pageRecord.PageSize = _pageRecord.PageSize;
+            }
+            return pageRecord;
+        }
+        #endregion
+
+        #region 获取学期列表
+        public List<Term> GetTermList(){
+            List<Term> terms = new List<Term>();
+            using (JszxDataManager jszxDataManager = new JszxDataManager())
+            {
+                List<terms_tb> termtbs = jszxDataManager.GetTerms();
+                foreach(var tmtb in termtbs){
+                    Term tm = new Term();
+                    tm.TermID = tmtb.TermID;
+                    tm.TermIndex = tmtb.TermIndex;
+                    tm.TermIsUse = tmtb.TermIsUse;
+                    tm.TermStartDay = tmtb.TermStartDay;
+                    tm.TermWeeks = tmtb.TermWeeks;
+                    tm.TermYear = tmtb.TermYear;
+                    terms.Add(tm);
+                }
+            }
+            return terms;
+        }
+        #endregion
     }
 }

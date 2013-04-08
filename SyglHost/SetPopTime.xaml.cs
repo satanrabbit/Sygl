@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using JszxDataModel;
+using System.Collections.ObjectModel;
 
 namespace SyglHost
 {
@@ -23,33 +15,43 @@ namespace SyglHost
         {
             InitializeComponent();
         }
- 
 
+        private List<poptimes_tb> popList1;
+        public ObservableCollection<poptimes_tb> popList ;
+        JszxDataManager jszxDataManager;
         private void Window_Loaded_1(object sender, RoutedEventArgs e)
         {
 
-            JszxDataManager jszxDataManager = new JszxDataManager();
-            PopTimeDG.ItemsSource = jszxDataManager.GetPopTimes(true);
+            jszxDataManager = new JszxDataManager();
+            popList1 = jszxDataManager.GetPopTimes(true);
+            popList = new ObservableCollection<poptimes_tb>(popList1);
+            PopTimeDG.ItemsSource = popList;
         }
 
         private void AddPopBtn_Click_1(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void SaveBtn_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+            EidtPopTime editPopW = new EidtPopTime(this, new poptimes_tb() , "添加弹出时间");
+            editPopW.ShowDialog();
+        } 
         private void EditBtn_Click_1(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Edit");
+            Button btn = sender as Button;
+            poptimes_tb pop = btn.Tag as poptimes_tb;
+            EidtPopTime editPopW = new EidtPopTime(this,pop,"修改弹出时间");
+            editPopW.ShowDialog();
         }
 
         private void DeleteBtn_Click_1(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show("确定删除该条记录吗?", "请确认", MessageBoxButton.YesNo,MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                Button btn = sender as Button;
+                poptimes_tb pop = btn.Tag as poptimes_tb;
+                //更新数据库
+                jszxDataManager.DeletePopTime(pop.PopTimeID);
+                popList.Remove(pop);                
 
+            }       
         }
 
     }

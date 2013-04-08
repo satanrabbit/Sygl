@@ -91,6 +91,21 @@ namespace SyglService.Interface
         /// <param name="selectedClass">实验记录节次的列表</param>
         [OperationContract]
         void SaveExpRecord(Exprecord exp, List<int> selectedClass);
+        /// <summary>
+        /// 获取分页的查询结果
+        /// </summary>
+        /// <param name="pm"></param>
+        /// <returns></returns>
+        [OperationContract]
+        PageRecord GetPageRecords(SearchRecordParam pm);
+        #region 获取学期列表
+        /// <summary>
+        /// 获取学期列表
+        /// </summary>
+        /// <returns></returns>
+        [OperationContract]
+        List<Term> GetTermList();
+        #endregion
         #endregion
 
     }
@@ -317,7 +332,7 @@ namespace SyglService.Interface
         [DataMember]
         public int ScdTerm { get; set; } 
      }
-
+   
     #region 实验记录
     [DataContract]
     public class Exprecord
@@ -453,7 +468,56 @@ namespace SyglService.Interface
         [DataMember]
         public Exprecord ExpRecord { get; set; }
     }
+    #endregion 
+    /// <summary>
+    /// 带分页信息的记录
+    /// </summary>
+    [DataContract]
+    public class PageRecord
+    {
+        /// <summary>
+        /// 总页数
+        /// </summary>
+        [DataMember]
+        public int Pages { get; set; }
+        /// <summary>
+        /// 当前页书
+        /// </summary>
+        [DataMember]
+        public int Page { get; set; }
+        /// <summary>
+        /// 每页记录数
+        /// </summary>
+        [DataMember]
+        public int PageSize { get; set; }
+        /// <summary>
+        /// 当前页的记录
+        /// </summary>
+        [DataMember]
+        public List<exprecords_tb> ExpRecordList { get; set; }
+    }
+    #region 查询信息的条件类
+    [DataContract]
+    public class SearchRecordParam{
+        [DataMember]
+        public int? term { get; set; }
+        [DataMember]
+        public int? lab { get; set; }
+        [DataMember]
+        public int? week { get; set; }
+        [DataMember]
+        public int? weekday { get; set; }
+        [DataMember]
+        public int? cls { get; set; }
+        [DataMember]
+        public string teacherNum { get; set; }
+        [DataMember]
+        public int? page { get; set; }
+        [DataMember]
+        public int? pageSize { get; set; }
+    }
     #endregion
+
     #endregion
 
     

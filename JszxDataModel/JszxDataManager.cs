@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text; 
 
 namespace JszxDataModel
 {
@@ -26,6 +25,12 @@ namespace JszxDataModel
         }
         #endregion
 
+        #region 获取学期列表
+        public List<terms_tb> GetTerms()
+        {
+            return jszxEntity.terms_tb.OrderByDescending(tm=>tm.TermID).ToList();
+        }
+        #endregion
 
         #region 保存学期
         /// <summary>
@@ -214,6 +219,61 @@ namespace JszxDataModel
         {
             return jszxEntity.exprecords_tb.Where(ep => ep.ExpTerm == term && ep.ExpLabID == lab && ep.ExpWeek == week && ep.ExpWeekDay == weekDay && ep.ExpCls == cls).OrderByDescending(ep => ep.PostTime).ToList();
         }
+        /// <summary>
+        /// 分页获取实验记录
+        /// </summary>
+        /// <param name="term"></param>
+        /// <param name="lab"></param>
+        /// <param name="week"></param>
+        /// <param name="weekDay"></param>
+        /// <param name="cls"></param>
+        /// <param name="teacherNum"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public PageExpRecord GetPageExpRecords(int? term, int? lab, int? week, int? weekDay, int? cls, string teacherNum, int? page, int? pageSize)
+        {
+            var exps = jszxEntity.exprecords_tb.Where(ep => ep.RecordID >0);
+            if (term != null)
+            {
+                exps = exps.Where(ep => ep.ExpTerm == term);
+            }
+            if (lab != null)
+            {
+                exps = exps.Where(ep => ep.ExpLabID == lab);
+            }
+            if (week != null)
+            {
+                exps = exps.Where(ep => ep.ExpWeek == week);
+            }
+            if (weekDay != null)
+            {
+                exps = exps.Where(ep => ep.ExpWeekDay == weekDay);
+            }
+            if (cls != null)
+            {
+                exps = exps.Where(ep => ep.ExpCls == cls);
+            }
+            if (teacherNum != null)
+            {
+                exps = exps.Where(ep => ep.TeacherNumber == teacherNum);
+            }
+            int pageCount = exps.Count();
+            if (page == null)
+            {
+                page = 0;
+            }
+            if (pageSize == null)
+            {
+                pageSize = 20;
+            }
+            PageExpRecord pageRecord = new PageExpRecord();
+            pageRecord.Page = (int)page;
+            pageRecord.Pages = pageCount;
+            pageRecord.PageSize = (int)pageSize;
+            pageRecord.ExpRecordList = exps.OrderByDescending(p => p.PostTime).Skip((int)pageSize * (int)page).Take((int)pageSize).ToList();
+            return pageRecord;
+        }
         #endregion
 
         #region 保存实验记录
@@ -258,6 +318,40 @@ namespace JszxDataModel
         }
         #endregion
 
+        #region 删除指定的弹出时间
+        /// <summary>
+        /// 删除指定的弹出时间
+        /// </summary>
+        /// <param name="popID">指定弹出时间的ID</param>
+        public void DeletePopTime( int popID)
+        {
+            jszxEntity.poptimes_tb.Remove(jszxEntity.poptimes_tb.Where(p=>p.PopTimeID==popID).FirstOrDefault());
+            jszxEntity.SaveChanges();
+        }
+        #endregion
+        #region 保存弹出时间
+        /// <summary>
+        /// 保存弹出时间设置
+        /// </summary>
+        /// <param name="pop">待保存的弹出时间</param>
+        /// <returns>弹出时间的ID</returns>
+        public int SavePopTime(poptimes_tb pop)
+        {
+            if (pop.PopTimeID == 0)
+            {
+                //新添加的PopTime
+                jszxEntity.poptimes_tb.Add(pop);
+            }
+            else
+            {
+                //修改
+                poptimes_tb _pop = jszxEntity.poptimes_tb.Where(pt => pt.PopTimeID == pop.PopTimeID).FirstOrDefault();
+                _pop.PopTime = pop.PopTime;
+            }
+            jszxEntity.SaveChanges();
+            return pop.PopTimeID;
+        }
+        #endregion
         #region IDisposable 成员
         public void Dispose()
         {

@@ -1,22 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.ServiceModel;
 using SyglService;
-using SyglService.Interface;
-using JszxDataModel;
 using System.Threading;
+using Microsoft.Win32; 
+
 namespace SyglHost
 {
     /// <summary>
@@ -27,7 +15,19 @@ namespace SyglHost
         public MainWindow()
         {
             InitializeComponent();
-            //StartService();
+            Thread StartServiceThread = new Thread(new ThreadStart(delegate
+            {
+                StartService();
+            }));
+            //设置为后台线程
+            StartServiceThread.IsBackground = true;
+            StartServiceThread.Start();
+
+            if (IsRegKeIsExt())
+            {
+                this.autoStartButton.Content = "取消开机启动";
+            }
+
         }
         ServiceHost host = new ServiceHost(typeof(JszxService));
         /// <summary>
@@ -63,8 +63,6 @@ namespace SyglHost
             {
                 MessageBox.Show(ex.ToString());
             }
-
-           
         }
 
         private void SetTermBtn_Click_1(object sender, RoutedEventArgs e)
@@ -113,7 +111,75 @@ namespace SyglHost
         {
             ExcelWindow excelWindow = new ExcelWindow();
             excelWindow.ShowDialog();
-        } 
+        }
+
+        #region 设置开机启动
+        /// <summary>
+        /// 判断开机启动项是否已存在 
+        /// </summary>
+        /// <returns></returns>
+        private bool IsRegKeIsExt()
+        {
+            bool IsExt = false;
+            try
+            {
+                RegistryKey R_local = Registry.LocalMachine;
+                //查找到要添加到的注册表项
+                RegistryKey R_run = R_local.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+
+                //获得注册表项的值
+                object _obj = R_run.GetValue("StartSign");
+                R_run.Close();
+                R_local.Close();
+
+                if (_obj != null)
+                {
+                    IsExt = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("运行错误：\n" + ex.Message + "\n\n 请以管理员身份运行本程序后设置开机启动项！");
+            }
+            return IsExt;
+        }
+
+        private void autoStartButton_Click(object sender, EventArgs e)
+        {
+            string R_startPath = System.AppDomain.CurrentDomain.BaseDirectory + "SyglHost.exe";
+            try
+            {
+                if (!IsRegKeIsExt())
+                {
+                    #region 添加开机启动
+                    RegistryKey R_local = Registry.LocalMachine;
+
+                    //查找到要添加到的注册表项
+                    RegistryKey R_run = R_local.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                    //添加注册表项
+                    R_run.SetValue("StartSign", R_startPath);
+
+                    R_run.Close();
+                    R_local.Close();
+                    #endregion
+                    this.autoStartButton.Content = "取消开机启动";
+                }
+                else
+                {
+                    RegistryKey R_local = Registry.LocalMachine; RegistryKey R_run = R_local.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                    //删除相应的注册表项
+                    R_run.DeleteValue("StartSign", false);
+                    R_run.Close();
+                    R_local.Close();
+                    this.autoStartButton.Content = "开机启动";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("错误：" + ex.Message);
+            }
+        }
+        #endregion
        
     }
 }

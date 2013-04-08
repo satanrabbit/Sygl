@@ -23,6 +23,7 @@ namespace Sygl
             InitializeComponent();
             lg = l;
             this.LoginTitle.Content = lg.Title;
+            this.Topmost = true;
         }
 
         IsLogin lg;

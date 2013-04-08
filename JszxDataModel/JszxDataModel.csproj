@@ -36,10 +36,12 @@
     <Reference Include="MySql.Data, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 6.6.5\Assemblies\v4.0\MySql.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MySql.Data.Entity, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\MySQL\MySQL Connector Net 6.6.5\Assemblies\v4.0\MySql.Data.Entity.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -85,6 +87,7 @@
     <Compile Include="labs_tb.cs">
       <DependentUpon>JszxDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="PageExpRecord.cs" />
     <Compile Include="poptimes_tb.cs">
       <DependentUpon>JszxDM.tt</DependentUpon>
     </Compile>

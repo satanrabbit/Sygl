@@ -52,6 +52,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>MB_0002_Base-copy-19.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
@@ -83,6 +86,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EidtPopTime.xaml.cs">
+      <DependentUpon>EidtPopTime.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ExcelWindow.xaml.cs">
       <DependentUpon>ExcelWindow.xaml</DependentUpon>
     </Compile>
@@ -91,6 +97,10 @@
     </Compile>
     <Compile Include="SqlExcel.cs" />
     <Page Include="EditTerm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EidtPopTime.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -160,6 +170,9 @@
       <Project>{15b3e0d2-6217-493a-a690-158c497f5318}</Project>
       <Name>SyglService</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MB_0002_Base-copy-19.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="客户端设置" Height="450" Width="600" WindowStyle="None" 
          AllowsTransparency="True" Background="{x:Null}"
-        MouseDown="Window_MouseDown_1" Visibility="Hidden"  >
+        MouseDown="Window_MouseDown_1"   >
     <Border 
             x:Name="EffectBorder"
             BorderBrush="#FF111111" 
@@ -84,9 +84,12 @@
                     <TextBlock Grid.Column="2" Grid.Row="1" VerticalAlignment="Center"  
                                Name="PWDShow" Foreground="Red" Margin="10,0,0,0" FontStyle="Italic" TextDecorations="{x:Null}">密码</TextBlock>
                 </StackPanel>
-               
-               
-                <Button Grid.Row="5" Grid.Column="2"  Name="SaveSetBtn"
+
+                <Button Grid.Row="3" Grid.Column="1"  Name="autoStartButton"
+                        Style="{StaticResource ResourceKey=SubmitBtnStyle}" 
+                        Foreground="#FF200B66" Click="autoStartButton_Click"
+                        >开机启动</Button>
+                    <Button Grid.Row="5" Grid.Column="2"  Name="SaveSetBtn"
                         Style="{StaticResource ResourceKey=SubmitBtnStyle}" 
                         Foreground="#FF200B66" Click="SaveSetBtn_Click_1" >保 存</Button>
             </Grid>

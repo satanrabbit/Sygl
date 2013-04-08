@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JszxDataModel", "JszxDataMo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyglService.Interface", "SyglService.Interface\SyglService.Interface.csproj", "{7C98525B-DE76-4158-AFD5-9464ABA500AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JszxService", "jszxService\JszxService.csproj", "{46C7BA84-020E-4B42-B56A-C8998996FF96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JszxConsoleService", "JszxConsoleService\JszxConsoleService.csproj", "{A66AD035-B3FE-40F9-9D31-EE245C793FCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,14 @@ Global
 		{7C98525B-DE76-4158-AFD5-9464ABA500AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C98525B-DE76-4158-AFD5-9464ABA500AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C98525B-DE76-4158-AFD5-9464ABA500AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46C7BA84-020E-4B42-B56A-C8998996FF96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46C7BA84-020E-4B42-B56A-C8998996FF96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46C7BA84-020E-4B42-B56A-C8998996FF96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46C7BA84-020E-4B42-B56A-C8998996FF96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A66AD035-B3FE-40F9-9D31-EE245C793FCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A66AD035-B3FE-40F9-9D31-EE245C793FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A66AD035-B3FE-40F9-9D31-EE245C793FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A66AD035-B3FE-40F9-9D31-EE245C793FCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

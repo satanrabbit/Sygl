@@ -70,6 +70,9 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>MB_0018_note1.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="LitJson">
       <HintPath>D:\cloud\开发库\litjson-0.5.0-bin\litjson-0.5.0\bin\LitJson.dll</HintPath>
@@ -293,6 +296,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\star.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MB_0018_note1.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

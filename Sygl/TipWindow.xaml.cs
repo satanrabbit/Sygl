@@ -89,7 +89,7 @@ namespace Sygl
 
         private void CloseBtn_Click_1(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            //this.Close();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

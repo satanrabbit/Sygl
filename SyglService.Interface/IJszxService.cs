@@ -22,6 +22,12 @@ namespace SyglService.Interface
         [OperationContract]
         Term GetCurrentTerm();
         /// <summary>
+        ///  获取指定的期
+        /// </summary>
+        /// <returns>指定学期</returns>
+        [OperationContract]
+        Term GetPurposeTerm(int id);
+        /// <summary>
         /// 获取当前服务器时间
         /// </summary>
         /// <returns></returns>
@@ -457,6 +463,10 @@ namespace SyglService.Interface
     [DataContract]
     public class ExpRecordWithFlag
     {
+        public ExpRecordWithFlag()
+        {
+            ExpRecord = new Exprecord();
+        }
         /// <summary>
         /// 填写标识，0当前无课，1已经填写，2需要核对，3新填写
         /// </summary>
@@ -475,6 +485,10 @@ namespace SyglService.Interface
     [DataContract]
     public class PageRecord
     {
+        public PageRecord()
+        {
+            ExpRecordList = new List<Exprecord>();
+        }
         /// <summary>
         /// 总页数
         /// </summary>
@@ -494,7 +508,7 @@ namespace SyglService.Interface
         /// 当前页的记录
         /// </summary>
         [DataMember]
-        public List<exprecords_tb> ExpRecordList { get; set; }
+        public List<Exprecord> ExpRecordList { get; set; }
     }
     #region 查询信息的条件类
     [DataContract]

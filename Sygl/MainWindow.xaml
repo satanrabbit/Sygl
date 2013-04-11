@@ -6,7 +6,7 @@
         mc:Ignorable="d" x:Class="Sygl.MainWindow"
         Title="实验记录系统" Height="650" Width="800" 
         WindowStartupLocation="CenterScreen" WindowStyle="None"
-        Visibility="Visible"
+        Visibility="Hidden"
         Background="{x:Null}" AllowsTransparency="True" MouseDown="Window_MouseDown_1"
         >
     <Window.Resources>
@@ -70,7 +70,33 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+        <!--设置按钮样式-->
+        <Style x:Key="MenuButtonSetBaseStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MenuButtonBaseStyle}"  >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--背景色-->
+                        <Border x:Name="backBorder"  >
+                            <Border x:Name="foreBorder" CornerRadius="5" Padding="0,0,5,5">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="Resource/658.png" Stretch="None" Viewport="0,0,0.8,0.8" AlignmentY="Center" ></ImageBrush>
+                                </Border.Background>
+                                <ContentPresenter VerticalAlignment="Bottom" 
+                                              HorizontalAlignment="Right"/>
+                            </Border>
+                        </Border>
+                        <!--模版触发器-->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="backBorder" Property="CornerRadius" Value="5" />
+                                <Setter TargetName="backBorder" Property="BorderThickness" Value="1" />
+                                <Setter TargetName="backBorder" Property="BorderBrush" Value="#FFAAAAAA" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <!--设置菜单按钮按钮样式-->
         <Style  x:Key="WindowSetButtonStyle" TargetType="Button" BasedOn="{StaticResource WindowButtonBaseStyle}" >
             <Setter Property="Width" Value="27"/>
@@ -105,6 +131,33 @@
                                         </ImageBrush>
                                     </Setter.Value>
                                 </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--设置按钮样式-->
+        <Style x:Key="MenuButtonAboutBaseStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MenuButtonBaseStyle}"  >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--背景色-->
+                        <Border x:Name="backBorder"  >
+                            <Border x:Name="foreBorder" CornerRadius="5" Padding="0,0,5,5">
+                                <Border.Background>
+                                    <ImageBrush ImageSource="Resource/193.png" Stretch="None" Viewport="0,0,0.8,0.8" AlignmentY="Center" ></ImageBrush>
+                                </Border.Background>
+                                <ContentPresenter VerticalAlignment="Bottom" 
+                                              HorizontalAlignment="Right"/>
+                            </Border>
+                        </Border>
+                        <!--模版触发器-->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="backBorder" Property="CornerRadius" Value="5" />
+                                <Setter TargetName="backBorder" Property="BorderThickness" Value="1" />
+                                <Setter TargetName="backBorder" Property="BorderBrush" Value="#FFAAAAAA" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -191,9 +244,9 @@
                 <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="173"/>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="149"/>
             </Grid.ColumnDefinitions>
             <!--拖拽及双击控制窗口最大还原状态的区域
             <StackPanel Name="ControlPanel" Grid.ColumnSpan="3" Grid.RowSpan="2" MouseDown="Window_MouseDown_1"  >
@@ -201,16 +254,16 @@
             </StackPanel>-->
             <!--Logo区域-->
             <StackPanel Orientation="Horizontal">
-                <Label FontSize="14"  FontWeight="SemiBold" Foreground="White" Content="计算中心实验记录系统" VerticalAlignment="Center"/>
+                <Label FontSize="16" Foreground="White" Content="计算中心实验记录系统" VerticalAlignment="Center"/>
             </StackPanel>
             <!--Logo区域 结束-->
             <!--窗口控制按钮区域-->
-            <StackPanel Orientation="Horizontal"  Grid.Column="3" Grid.Row="0" 
+            <StackPanel Orientation="Horizontal"  Grid.Column="2" Grid.Row="0" 
                         HorizontalAlignment="Right" VerticalAlignment="Top"
-                        Height="25">
+                        Height="25" Width="98">
                 <Button Style="{StaticResource ResourceKey=WindowSetButtonStyle}" Name="SetBtn" ToolTip="设置" Click= "SetBtn_Click_1"/>
                 <Button Style="{StaticResource ResourceKey=WindowMiniButtonStyle}" Name="MiniBtn" ToolTip="最小化" Click="MiniBtn_Click_1" />
-                <Button Style="{StaticResource ResourceKey=WindowMaxButtonStyle}" Name="MaxBtn" ToolTip="最大化"  />
+                <!--<Button Style="{StaticResource ResourceKey=WindowMaxButtonStyle}" Name="MaxBtn" ToolTip="最大化"  />-->
                 <Button Style="{StaticResource ResourceKey=WindowCloseButtonStyle}" Name="CloseBtn" ToolTip="关闭" 
                          Click="Close_Button_Click_1">                   
                 </Button>
@@ -221,9 +274,11 @@
                         Grid.Column="1" Grid.ColumnSpan="1"
                         Grid.Row="0" Grid.RowSpan="2"
                         HorizontalAlignment="Center" 
-                        VerticalAlignment="Center">
+                        VerticalAlignment="Center" Height="70" Margin="37,5,38,5" Width="360">
                 <Button Style="{StaticResource ResourceKey=MenuButtonBaseStyle}" Content="填写" Name="SignBtn" Click="SignBtn_Click_1" />
-                <Button Style="{StaticResource ResourceKey=MenuButtonSearchBaseStyle}" Content="查询" Name="SearchBtn" />
+                <Button Style="{StaticResource ResourceKey=MenuButtonSearchBaseStyle}" Content="查询" Name="SearchBtn" Click="SearchBtn_Click_1" />
+                <Button Style="{StaticResource ResourceKey=MenuButtonSetBaseStyle}" Content="设置" Name="MainSetBtn" Click="MainSetBtn_Click_1" />
+                <Button Style="{StaticResource ResourceKey=MenuButtonAboutBaseStyle}" Content="关于" Name="MainAboutBtn" Click="AboutBtn_Click_1" />
                 <!--Click="SearchBtn_Click_1"-->
             </StackPanel>
             <!--操作按钮区域 结束-->
@@ -249,11 +304,11 @@
                 		FontSize="14"
                 		HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     <TextBlock Grid.Column="1" TextWrapping="Wrap" TextTrimming="WordEllipsis" 
-                		FontStretch="SemiCondensed" HorizontalAlignment="Left" 
+                		FontStretch="SemiCondensed" HorizontalAlignment="Left"  xml:space="preserve"
                 		FontSize="14"
                 		LineHeight="23"
                 		VerticalAlignment="Center" FontWeight="Medium" Foreground="#FF333333">
-                        <TextBlock.Text>本软件设计共中央2月28日上午在中南海怀仁堂举行民主协商会，就国务院机构改革和职能转变、中共中央拟向十二届全国人大一次会议推荐的国家机构领导人员人选建议名单和拟向全国政协十二届一次会议推荐的全国政协领导人员人选建议名单，向各民主党派、全国工商联和无党派人士通报情况，听取意见。中共中央总书记习近平主持会议并发表重要讲话。</TextBlock.Text>
+                        <TextBlock.Text >    为了方便任课教师填写实验开设纪录，节约资源、提高效率，计算中心在泰达校区各机房推行自主开发的实验开设记录电子系统。请各位任课老师认真核对课程相关信息，填写实验名称、教工卡号、学生组长三项内容。感谢您一直以来对我们工作的支持。</TextBlock.Text>
                     </TextBlock>
                     <StackPanel Grid.Column="2" Background="{x:Null}">
                         <Button  Style="{StaticResource ResourceKey=AboutCloseButtonStyle}"  x:Name="AboutCloseBtn" 
@@ -311,31 +366,31 @@
                                 <RowDefinition Height="20"></RowDefinition>
                                 <RowDefinition Height="35"></RowDefinition>
                                 <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="52"></RowDefinition>
                                 <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="52"></RowDefinition>
                                 <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="35"></RowDefinition>
+                                <RowDefinition Height="52"></RowDefinition>
                                 <RowDefinition Height="20"></RowDefinition> 
                             </Grid.RowDefinitions>
-                            <Label  Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="66">课程名称</Label>
-                            <Label  Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="66">实验名称</Label>
-                            <Label  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="66">实验时间</Label>
-                            <Label  Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="66">实验班级</Label> 
-                            <Label  Grid.Column="0" Grid.Row="11" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="95">学生出勤情况</Label>
-                            <Label  Grid.Column="0" Grid.Row="13" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="95">实验设备情况</Label>
-                            <Label  Grid.Column="0" Grid.Row="15" HorizontalAlignment="Right" VerticalAlignment="Center"  Margin="0,11,10,11" Height="28" Width="95">实验出现问题</Label>
+                            <Label  Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"   Height="29" Width="66">课程名称</Label>
+                            <Label  Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center"   Height="29" Width="66">实验名称</Label>
+                            <Label  Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center"  Height="29" Width="66">实验时间</Label>
+                            <Label  Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right" VerticalAlignment="Center"  Height="29" Width="66">实验班级</Label> 
+                            <Label  Grid.Column="0" Grid.Row="11" HorizontalAlignment="Right" VerticalAlignment="Center"  Height="29" Width="95">学生出勤情况</Label>
+                            <Label  Grid.Column="0" Grid.Row="13" HorizontalAlignment="Right" VerticalAlignment="Center"   Height="29" Width="95">实验设备情况</Label>
+                            <Label  Grid.Column="0" Grid.Row="15" HorizontalAlignment="Right" VerticalAlignment="Center"   Height="29" Width="95">实验出现问题</Label>
                             <!--课程名 CourseName-->
-                            <TextBox Name="CourseName" Grid.Column="1" Grid.Row="1" Height="30"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow" GotFocus="CourseName_GotFocus_1" LostFocus="CourseName_LostFocus_1" />
+                            <TextBox Name="CourseName" Grid.Column="1" Grid.Row="1" Height="30"  Foreground="#FF052E61"  VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow" GotFocus="CourseName_GotFocus_1" LostFocus="CourseName_LostFocus_1" />
                             <Label Name="CourseNameV" Grid.Column="1" Grid.Row="2"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写课程名称！</Label>
                             <!--实验名 ExpName-->
                             <TextBox Name="ExpName" Grid.Column="3" Grid.Row="1" Height="30"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow" LostFocus="ExpName_LostFocus_1"/>
                             <Label Name="ExpNameV" Grid.Column="3" Grid.Row="2"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写实验名称！</Label>
                             <Label Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="3" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" >
                                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" >
-                                    <TextBlock Name="ExpDate">2013年3月11日</TextBlock> 第
-                                    <TextBlock Name="ExpWeek">2</TextBlock> 教学周 周
-                                    <TextBlock Name="ExpWeekday">4</TextBlock>
+                                    <TextBlock Name="ExpDate">?</TextBlock> 第
+                                    <TextBlock Name="ExpWeek">?</TextBlock> 教学周 周
+                                    <TextBlock Name="ExpWeekday">?</TextBlock>
                                 </TextBlock>
                             </Label>
                             <!--课节时间-->
@@ -378,13 +433,13 @@
                             <Label Name="ExpGroupsV" Grid.Column="2" Grid.Row="10" Grid.ColumnSpan="2"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Visibility="Hidden">请填写实验组数！</Label>
                             <Label Name="PerGroupsV" Grid.Column="2" Grid.Row="10" Grid.ColumnSpan="2"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写每组人数！</Label>
                             <!--学生出勤情况 StudentStatus-->
-                            <TextBox Name="StudentsStatus" Grid.Column="1" Height="30" Grid.Row="11" Grid.ColumnSpan="3"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow" LostFocus="StudentsStatus_LostFocus_1"/>
+                            <TextBox Name="StudentsStatus" Grid.Column="1" Height="50" Grid.Row="11" Grid.ColumnSpan="3"  Foreground="#FF052E61" TextWrapping="Wrap" FontSize="14"  LostFocus="StudentsStatus_LostFocus_1"/>
                             <Label Name="StudentsStatusV" Grid.Column="1" Grid.Row="12" Grid.ColumnSpan="3" Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填学生出勤情况！</Label>
                             <!--设备情况 InstrumentStatus-->
-                            <TextBox Name="InstrumentStatus" Grid.Column="1" Height="30" Grid.Row="13" Grid.ColumnSpan="3"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow" LostFocus="InstrumentStatus_LostFocus_1"/>
-                            <Label Name="InstrumentStatusV" Grid.Column="1" Grid.Row="14"  Grid.ColumnSpan="3"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写仪器设备情况！</Label>
+                            <TextBox Name="InstrumentStatus" Grid.Column="1" Height="50" Grid.Row="13" Grid.ColumnSpan="3"  Foreground="#FF052E61" TextWrapping="Wrap"  FontSize="14"  LostFocus="InstrumentStatus_LostFocus_1"/>
+                            <Label Name="InstrumentStatusV" Grid.Column="1" Grid.Row="14"  Grid.ColumnSpan="3"  Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写实验设备情况！</Label>
                             <!--出现问题 Problems-->
-                            <TextBox Name="Problems" Grid.Column="1" Height="30" Grid.Row="15" Grid.ColumnSpan="3"  Foreground="#FF052E61" VerticalContentAlignment="Center" FontSize="14" TextWrapping="WrapWithOverflow" LostFocus="Problems_LostFocus_1"/>
+                            <TextBox Name="Problems" Grid.Column="1" Height="50" Grid.Row="15" Grid.ColumnSpan="3"  Foreground="#FF052E61" TextWrapping="Wrap"   FontSize="14" LostFocus="Problems_LostFocus_1"/>
                             <Label Name="ProblemsV" Grid.Column="1" Grid.Row="16"  Grid.ColumnSpan="3" Foreground="#FFC70606" Background="{x:Null}" Padding="0" HorizontalContentAlignment="Right" Visibility="Hidden">请填写出现问题！</Label>
                             <Grid Grid.Column="4" Grid.RowSpan="16">
                                 <Grid.RowDefinitions>
@@ -402,7 +457,7 @@
                                     <RowDefinition></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <Label HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="10,0,10,0" Grid.Row="1">教师姓名</Label>
-                                <Label HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="10,0,10,0" Grid.Row="4">教工号</Label>
+                                <Label HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="10,0,10,0" Grid.Row="4">教工卡号</Label>
                                 <Label HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="10,0,10,0" Grid.Row="7">学生组长(姓名)</Label>
                                 <!--教师姓名 TeacherName-->
                                 <TextBox Name="TeacherName"  Grid.Row="2" Height="30" VerticalContentAlignment="Center" Margin="30,0,0,0" HorizontalContentAlignment="Left" FontSize="14" LostFocus="TeacherName_LostFocus_1"></TextBox>
@@ -422,7 +477,7 @@
                     </DockPanel>
                     <!--填写区域面板 结束-->
                     <!--查询内容面板区域-->
-                    <DockPanel Name="SearchPanel"  Visibility="Hidden" >
+                    <DockPanel Name="SearchPanel" Visibility="Hidden"  >
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="80"></RowDefinition>
@@ -457,7 +512,10 @@
                                     <Label HorizontalAlignment="Left" VerticalAlignment="Center">第</Label>
                                         <ComboBox Name="SearchWeek" Width="40"></ComboBox>
                                     <Label>周 - 周</Label><ComboBox Name="SearchWeekday" Width="40"></ComboBox>
-                                    <Label>-</Label> <ComboBox Name="SearchCls" Width="60"></ComboBox>                                    
+                                    <Label>-</Label> <ComboBox Name="SearchCls" Width="60"
+                                                               DisplayMemberPath="ClsTmName"
+                                                               SelectedValuePath="ClsTmIndex"
+                                                               ></ComboBox>                                    
                                 </WrapPanel>
                                 <Button Name="SearchSubmitByn" Click="SearchSubmitByn_Click_1" 
                                         Grid.Column="4" Grid.Row="0" Grid.RowSpan="2" 
@@ -502,11 +560,11 @@
                                         <DataGridTextColumn Header="课程名称" Width="150" Binding="{Binding CourseName,Mode=OneWay}"></DataGridTextColumn>
                                         <DataGridTextColumn Header="实验名称" Width="150" Binding="{Binding ExpName,Mode=OneWay}"></DataGridTextColumn>
                                         <DataGridTextColumn Header="教师姓名" Width="80" Binding="{Binding TeacherName,Mode=OneWay}"></DataGridTextColumn>
-                                        <DataGridTextColumn Header="学期" Width="80" Binding="{Binding CourseName,Mode=OneWay}"></DataGridTextColumn>
-                                        <DataGridTextColumn Header="周次" Width="60" Binding="{Binding CourseName,Mode=OneWay}"></DataGridTextColumn>
-                                        <DataGridTextColumn Header="工作日" Width="60" Binding="{Binding CourseName,Mode=OneWay}"></DataGridTextColumn>
-                                        <DataGridTextColumn Header="节次" Width="60" Binding="{Binding CourseName,Mode=OneWay}"></DataGridTextColumn>
-                                        <DataGridTemplateColumn Header="查看" Width="*">
+                                        <DataGridTextColumn Header="实验室" Width="80" Binding="{Binding ExpLab,Mode=OneWay}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="周次" Width="60" Binding="{Binding ExpWeek ,Mode=OneWay}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="工作日" Width="60" Binding="{Binding ExpWeekDay,Mode=OneWay}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="节次" Width="60" Binding="{Binding ExpCls,Mode=OneWay}"></DataGridTextColumn>
+                                        <!--<DataGridTemplateColumn Header="查看" Width="*">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <WrapPanel>
@@ -514,7 +572,7 @@
                                                     </WrapPanel>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
+                                        </DataGridTemplateColumn>-->
                                     </DataGrid.Columns>
                                 
                                 </DataGrid>

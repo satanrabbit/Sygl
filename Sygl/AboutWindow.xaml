@@ -50,16 +50,12 @@
             <!--关于软件内容栏-->
             <ScrollViewer Grid.Row="1" Background="#BFFF">
                 <StackPanel>
-                    <TextBlock  xml:space="preserve" TextWrapping="Wrap">
-      中新网北京3月5日电(记者 李志全) 中国总理温家宝5日在向全国人大所作的政府工作报告中，对今年政府主要工作提出4方面建议，民生问题所占篇幅长、着墨多。
-      当日举行的十二届全国人大一次会议上，温家宝“结合过去十年特别是近五年工作的体会”，对今年政府主要工作提出以下建议。
-　　  一是加快转变经济发展方式，促进经济持续健康发展。温家宝说，必须坚持以经济建设为中心，聚精会神搞发展，一心一意谋发展。要顺应人民群众对美好生活环境的期待，大力加强生态文明建设和环境保护。生态环境关系人民福祉，关乎子孙后代和民族未来。
-　　  二是强化农业农村发展基础，推动城乡发展一体化。温家宝建议，加快推进户籍制度、社会管理体制和相关制度改革，有序推进农业转移人口市民化，逐步实现城镇基本公共服务覆盖常住人口，为人们自由迁徙、安居乐业创造公平的制度环境。
-　　  三是以保障和改善民生为重点，全面提高人民物质文化生活水平。温家宝表示，教育和科技在现代化建设中具有基础性、先导性、全局性作用，文化是民族的血脉和人民的精神家园，必须放在更加重要的战略位置。
-　　  四是以更大的政治勇气和智慧，深入推进改革开放。温家宝指出，中国改革已进入攻坚阶段，必须进一步解放思想，全面推进经济、政治、文化、社会等领域的改革，不断把改革引向深入。
-　　  这是温家宝代表本届中国政府作最后一次政府工作报告。上述4方面建议位于报告的第三部分，“以保障和改善民生为重点，全面提高人民物质文化生活水平”所占篇幅最长，约2000字。
-　　  实质上，10年来，两届政府共召开的400余次国务院常务会议中，教育、医疗、住房等各类民生议题多达128个。
-　　  “2003年抗击突如其来的非典疫情给我们的重要启示之一，就是要统筹经济社会发展。”温家宝表示，当前社会结构、社会组织形式、社会利益格局发生深刻变化，社会矛盾明显增多。我们必须把保障和改善民生作为政府一切工作的出发点和落脚点，放在更加突出的位置，着力加强社会建设。(完)
+                    <TextBlock  xml:space="preserve" FontSize="14" Foreground="#f333" TextWrapping="Wrap" Padding="10">
+    为了方便任课教师填写实验开设纪录，节约资源、提高效率，计算中心在泰达校区各机房推行自主开发的实验开设记录电子系统。
+                        
+    请各位任课老师认真核对课程相关信息，填写实验名称、教工卡号、学生组长三项内容。感谢您一直以来对我们工作的支持。
+                        
+    当前系统正在测试阶段，系统可能会存在部分错误与功能问题，在运行过程共出现问题时请您及时向计算中心反馈，我们将尽最大努力修复和完善本系统。
                     </TextBlock>
                 </StackPanel>
             </ScrollViewer>
@@ -81,7 +77,7 @@
                             <RowDefinition ></RowDefinition>
                         </Grid.RowDefinitions>
                        <Border Grid.Row="0" Grid.RowSpan="2" Background="#DFFF" Margin="30,20,20,20">
-                            <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold">关于作者</TextBlock>
+                            <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold">夏千祥</TextBlock>
                         </Border>
                         <Button Style="{StaticResource ResourceKey=EllipseCloseBtnStyle}" 
                                 Name="CloseAboutAuthor" Click="CloseAboutAuthor_Click_1">
@@ -107,8 +103,13 @@
                             <RowDefinition Height="30"></RowDefinition>
                             <RowDefinition ></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Border Grid.Row="0" Grid.RowSpan="2" Background="#DFFF" Margin="30,20,20,20">
-                            <TextBlock   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Bold">关于计算中心</TextBlock>
+                        <Border Grid.Row="0" Grid.RowSpan="2" Background="#DFFF" Margin="30,20,20,20" Padding="10">
+                            <TextBlock  xml:space="preserve"   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" TextWrapping="Wrap">
+    计算中心成立于1984年，主要负责学校公用计算机实验室的建设、管理、维护和维修工作，为全校师生提供计算机实践教学服务。现有13间计算机机房，学生机器数1200多台。中心每学年承担上机课程260余门、上机课时50余万，并承担约10多万人次的校内开放上机服务。
+    中心河西校区现有主楼C202机房、C302机房、D303机房3个机房，办公电话：60273486。
+    中心泰达校区现有第四机房、第五机房、第六机房、505机房、508机房、515机房、516机房、518机房、520机房9个机房，办公电话：60601260。    
+    欢迎您对我们的工作进行监督，并希望您能提出宝贵意见，我们将积极改进，竭力为您做好服务。
+                            </TextBlock>
                         </Border>
                         <Button Style="{StaticResource ResourceKey=EllipseCloseBtnStyle}" Name="CloseAboutCC" Click="CloseAboutCC_Click_1">
                         </Button>

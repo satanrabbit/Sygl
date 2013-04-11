@@ -57,7 +57,30 @@ namespace SyglService
             } 
         }
         #endregion
-
+        #region 获取当前学期
+        /// <summary>
+        /// 获取指定学期
+        /// </summary>
+        /// <returns>指定学期</returns>
+        public Term GetPurposeTerm(int id)
+        {
+            using (JszxDataManager jszxDateManage = new JszxDataManager())
+            {
+                terms_tb tmtb = jszxDateManage.GetCurrentTerm(id);
+                Term tm = new Term();
+                if (tmtb != null)
+                {
+                    tm.TermID = tmtb.TermID;
+                    tm.TermIndex = tmtb.TermIndex;
+                    tm.TermIsUse = tmtb.TermIsUse;
+                    tm.TermStartDay = tmtb.TermStartDay;
+                    tm.TermWeeks = tmtb.TermWeeks;
+                    tm.TermYear = tmtb.TermYear;
+                }
+                return tm;
+            }
+        }
+        #endregion
         #region 获取当前服务器时间
         /// <summary>
         /// 获取当前服务器时间
@@ -303,7 +326,6 @@ namespace SyglService
                                 expRecord.PostTime = exp_tb.PostTime;
                             }
                         }
-                        
                     }
                 }
             }
@@ -443,11 +465,39 @@ namespace SyglService
             PageRecord pageRecord = new PageRecord();
             using (JszxDataManager jszxDataManager = new JszxDataManager())
             {
-               PageExpRecord _pageRecord = jszxDataManager.GetPageExpRecords(pm.term,pm.lab,pm.week,pm.weekday,pm.cls,pm.teacherNum,pm.page,pm.pageSize);
-               pageRecord.ExpRecordList = _pageRecord.ExpRecordList;
-               pageRecord.Page = _pageRecord.Page;
-               pageRecord.Pages = _pageRecord.Pages;
-               pageRecord.PageSize = _pageRecord.PageSize;
+                PageExpRecord _pageRecord = jszxDataManager.GetPageExpRecords(pm.term,pm.lab,pm.week,pm.weekday,pm.cls,pm.teacherNum,pm.page,pm.pageSize);
+                foreach(var red in _pageRecord.ExpRecordList){
+
+                    Exprecord exprd = new Exprecord();
+                    exprd.CourseName = red.CourseName;
+                    exprd.ExpClasses = red.ExpClasses;
+                    exprd.ExpCls = red.ExpCls;
+                    exprd.ExpDate = red.ExpDate;
+                    exprd.ExpLab = red.ExpLab;
+                    exprd.ExpLabID = red.ExpLabID;
+                    exprd.ExpName = red.ExpName;
+                    exprd.ExpTerm = red.ExpTerm;
+                    exprd.ExpWeek = red.ExpWeek;
+                    exprd.ExpWeekDay = red.ExpWeekDay;
+                    exprd.Groups = red.Groups;
+                    exprd.InstrumentStatus = red.InstrumentStatus;
+                    exprd.PerGroup = red.PerGroup;
+                    exprd.PostTime = red.PostTime;
+                    exprd.Problems = red.Problems;
+                    exprd.Realizer = red.Realizer;
+                    exprd.RecordID = red.RecordID;
+                    exprd.Shoulder = red.Shoulder;
+                    exprd.StudentName = red.StudentName;
+                    exprd.StudentStatus = red.StudentStatus;
+                    exprd.TeacherName = red.TeacherName;
+                    exprd.TeacherNumber = red.TeacherNumber;
+
+                    pageRecord.ExpRecordList.Add(exprd);
+                }
+                
+                pageRecord.Page = _pageRecord.Page;
+                pageRecord.Pages = _pageRecord.Pages;
+                pageRecord.PageSize = _pageRecord.PageSize;
             }
             return pageRecord;
         }

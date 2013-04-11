@@ -71,7 +71,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>MB_0018_note1.ico</ApplicationIcon>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="LitJson">
@@ -289,16 +289,20 @@
     <Resource Include="Resource\logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="logo.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resource\icon_done%28big%29.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\star.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="MB_0018_note1.ico" />
+    <Resource Include="logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\658.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resource\193.png" />
+    <Resource Include="Resource\295.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

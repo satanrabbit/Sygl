@@ -23,8 +23,16 @@ namespace JszxDataModel
         {
             return jszxEntity.terms_tb.Where(t => t.TermIsUse == true).FirstOrDefault();
         }
+        /// <summary>
+        /// 获取指定的学期
+        /// </summary>
+        /// <param name="termID"></param>
+        /// <returns></returns>
+        public terms_tb GetCurrentTerm(int termID)
+        {
+            return jszxEntity.terms_tb.Where(t => t.TermID == termID).FirstOrDefault();
+        }
         #endregion
-
         #region 获取学期列表
         public List<terms_tb> GetTerms()
         {

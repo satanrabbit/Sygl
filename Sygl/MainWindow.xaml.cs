@@ -97,10 +97,10 @@ namespace Sygl
         /// <param name="e"></param>
         private void Window_MouseDown_1(object sender, MouseButtonEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                DragMove();
-            }
+            //if (e.LeftButton == MouseButtonState.Pressed)
+            //{
+            //    DragMove();
+            //}
         }
 
         #region 提交事件
@@ -214,12 +214,13 @@ namespace Sygl
             }
             try
             {
+                Proxy = ChannelFactory.CreateChannel();
                 Proxy.SaveExpRecord(expSubmit, SelectedClass);
                 //提示保存成功和反馈意见窗口 
                 FeedbackWindows feedbackWindow = new FeedbackWindows(true);
                 feedbackWindow.ShowDialog();
-
                 isSign = true;
+                TimeCounts = Proxy.GetPopTimeTallies();
                this.Hide();
                 
             }
@@ -243,6 +244,10 @@ namespace Sygl
             timer.Interval = TimeSpan.FromMilliseconds(1000);
             timer.Tick += delegate
             {
+                if (TimeCounts < 0)
+                {
+                    TimeCounts = TIMECOUNTS;
+                }
                 if (channelFlag!=1)
                 {
                     #region 连接服务
@@ -265,6 +270,9 @@ namespace Sygl
                             channelFlag = 1;
                             this.ServiceStatus.Text = "已经连接服务器！";
                             TimeCounts = Proxy.GetPopTimeTallies();
+
+                            SetCls();
+
                             if (TimeCounts < 60)
                             {
                                 TimeCounts = 70;
@@ -277,7 +285,6 @@ namespace Sygl
                         }
                     }
                     #endregion
-
                 }
                 else
                 {
@@ -285,7 +292,7 @@ namespace Sygl
                     {
                         #region 弹出填写
                         //获取下一次弹出时间
-                        TimeCounts = Proxy.GetPopTimeTallies();
+                        TimeCounts = TimeCounts;
                         //显示窗口
                         this.Show();
                         if (tipWindow == null)
@@ -300,7 +307,9 @@ namespace Sygl
                         if (TimeCounts == 60)
                         {
                             #region 查询填写状态
-                            expRecordWithFlag = Proxy.GetExpRecordWithFlag(1);
+                            Proxy = ChannelFactory.CreateChannel();
+                            expRecordWithFlag = Proxy.GetExpRecordWithFlag(Properties.Settings.Default.LabID);
+                            
                             //初始化填写窗口
                             switch (expRecordWithFlag.SignFlag)
                             {
@@ -314,8 +323,8 @@ namespace Sygl
                                     break;
                                 case 2: //需要核对
                                     isSign = false;
-                                        this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后核对记录！";
-                                        SetForm(expRecordWithFlag.ExpRecord); 
+                                    this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后核对记录！";
+                                    SetForm(expRecordWithFlag.ExpRecord);
                                     break;
                                 case 3: //新填写
                                     isSign = false;
@@ -329,54 +338,66 @@ namespace Sygl
                         }
                         else
                         {
-                            if (TimeCounts <= 30)
+                            if (TimeCounts <= 30&&isSign!=true)
                             {
-                                #region 提示填写
+                                    #region 提示填写
+                                    switch (expRecordWithFlag.SignFlag)
+                                    {
+                                        case 0: //无课，不需填写
+                                            this.ServiceStatus.Text = "当前无课，不需填写！等待" + (TimeCounts - 60).ToString() + "秒后查询服务！";
+                                            break;
+                                        case 1: //已经填写
+                                            this.ServiceStatus.Text = "等待" + (TimeCounts - 60).ToString() + "秒后查询服务！";
+                                            break;
+                                        case 2: //需要核对
+                                            this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后核对记录！";
+                                            if (this.Visibility == Visibility.Hidden || this.WindowState == WindowState.Minimized)
+                                            {
+                                                if (tipWindow == null)
+                                                {
+                                                    tipWindow = new TipWindow(this);
+                                                }
+
+                                                tipWindow.windowUpAnimation("当前记录信息不一致，距离核对记录还有：", "立刻核对");
+                                                
+                                                tipWindow.timeTip.Text = TimeCounts.ToString();
+                                            }
+                                            break;
+                                        case 3: //新填写
+                                            this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后填写记录！";
+                                            if (this.Visibility == Visibility.Hidden || this.WindowState == WindowState.Minimized)
+                                            {
+                                                if (tipWindow == null)
+                                                {
+                                                    tipWindow = new TipWindow(this);
+                                                }
+
+                                                tipWindow.windowUpAnimation("距离填写本次实验记录还有", "立刻填写");
+                                               
+                                                tipWindow.timeTip.Text = TimeCounts.ToString();
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    #endregion
                                 
-                                switch (expRecordWithFlag.SignFlag)
-                                {
-                                    case 0: //无课，不需填写
-                                        this.ServiceStatus.Text = "当前无课，不需填写！等待" + (TimeCounts - 60).ToString() + "秒后查询服务！";
-                                        break;
-                                    case 1: //已经填写
-                                        this.ServiceStatus.Text = "已经填写记录！等待" + (TimeCounts - 60).ToString() + "秒后查询服务！";
-                                        break;
-                                    case 2: //需要核对
-                                        this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后核对记录！";
-                                        if (this.Visibility == Visibility.Visible || this.WindowState == WindowState.Minimized)
-                                        {
-                                            if (tipWindow == null)
-                                            {
-                                                tipWindow = new TipWindow(this);
-                                            }
-                                            tipWindow.windowUpAnimation("当前记录信息不一致，距离核对记录还有：", "立刻核对");
-                                            tipWindow.timeTip.Text = TimeCounts.ToString();
-                                        }
-                                        break;
-                                    case 3: //新填写
-                                        this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后填写记录！";
-                                        if (this.Visibility == Visibility.Visible || this.WindowState == WindowState.Minimized)
-                                        {
-                                            if (tipWindow == null)
-                                            {
-                                                tipWindow = new TipWindow(this);
-                                            }
-                                            tipWindow.windowUpAnimation("距离填写本次实验记录还有", "立刻填写");
-                                            tipWindow.timeTip.Text = TimeCounts.ToString();
-                                        }
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                #endregion
                             }
                             else
                             {
                                 if (30 < TimeCounts && TimeCounts < 60)
                                 {
-                                    if (!isSign)
+                                    if (expRecordWithFlag == null)
                                     {
-                                        this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后填写记录！";
+                                        TimeCounts = 70;
+                                    }
+                                    else
+                                    {
+
+                                        if (!isSign)
+                                        {
+                                            this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后填写记录！";
+                                        }
                                     }
                                 }
                                 else
@@ -385,6 +406,7 @@ namespace Sygl
                                 }
                             }
                         }
+
                     }
                 }
                 TimeCounts--;
@@ -436,14 +458,26 @@ namespace Sygl
             this.TeacherName.Text = exp.TeacherName;
             this.TeacherNum.Text = exp.TeacherNumber;
             this.StudentName.Text = exp.StudentName;
-
-            //初始化textblock
-            this.ExpDate.Text = ((DateTime)exp.ExpDate).ToString("yyyy年MM月dd日");
-            this.ExpWeek.Text = exp.ExpWeek.ToString();
-            this.ExpWeekday.Text = exp.ExpWeekDay.ToString();
+            
+            SetCls();
+        }
+        #endregion
+        #region 初始化课节
+        private void SetCls( )
+        {
+            Proxy = ChannelFactory.CreateChannel();
+            this.ExpDate.Text = (DateTime.Now).ToString("yyyy年MM月dd日");
+            this.ExpWeek.Text = Proxy.GetCurrentWeeks().ToString();//exp.ExpWeek.ToString();
+            this.ExpWeekday.Text = Proxy.GetCurrentWeekDay().ToString();//exp.ExpWeekDay.ToString();
+            ClassTime expCls=  Proxy.GetCurrentClassTime();
+            int nowCls=0;
+            if (expCls != null)
+            {
+                nowCls = expCls.ClsTmIndex;
+            }
+            this.ClsTimePanel.Children.Clear();
             //初始化课节 
             SelectedClass = new List<int>();
-
             clsTimeList = Proxy.GetClassTimeList();
             foreach (ClassTime clt in clsTimeList)
             {
@@ -458,15 +492,14 @@ namespace Sygl
                 chb.Unchecked += new RoutedEventHandler(ExpClass_UnChecked);
 
                 //是否当前课节
-                if (exp.ExpCls == clt.ClsTmIndex)
+                if (nowCls == clt.ClsTmIndex)
                 {
                     chb.IsChecked = true;
-                }
-                this.ClsTimePanel.Children.Add(chb); 
+                }               
+                this.ClsTimePanel.Children.Add(chb);
             } 
         }
         #endregion
-
         #region 添加课节选择时间
         private void ExpClass_Checked(object sender, RoutedEventArgs e)
         {
@@ -664,7 +697,7 @@ namespace Sygl
         {
             ChannelFactory = new ChannelFactory<IJszxService>("JszxService");
             Proxy = ChannelFactory.CreateChannel();
-           
+            SetCls();
         }
 
         /// <summary>
@@ -772,11 +805,13 @@ namespace Sygl
         }
         #endregion
 
+        #region 确定反馈窗口
         private void FeedbackBtn_Click_1(object sender, RoutedEventArgs e)
         {
             FeedbackWindows feedbackWindow = new FeedbackWindows(false);
             feedbackWindow.ShowDialog();
         }
+        #endregion
 
         private void SignBtn_Click_1(object sender, RoutedEventArgs e)
         {
@@ -784,6 +819,7 @@ namespace Sygl
             this.SearchPanel.Visibility = Visibility.Collapsed;
         }
 
+        #region 查询
         private void SearchBtn_Click_1(object sender, RoutedEventArgs e)
         {
             this.SignPanel.Visibility = Visibility.Collapsed;
@@ -805,24 +841,123 @@ namespace Sygl
             //初始化查询信息
             searchRecordParam = new SearchRecordParam();
             //实验室列表
+            Proxy = ChannelFactory.CreateChannel();
             this.SearchLab.ItemsSource = Proxy.GetLabList();
-            //学期列表
+            //学期列表 
             this.SearchTerm.ItemsSource = Proxy.GetTermList();
-            
+            Term ct = Proxy.GetCurrentTerm();
+            this.SearchTerm.SelectedItem = ct;
+            //获取周数列表
+            SetSearchWeek(ct.TermID);
+            //设置工作日列表
+            SetSearchWeekday();
+            //设置课节列表
+            SetSearchCls();
         }
+        /// <summary>
+        /// 设置指定的学期的周选择列表
+        /// </summary>
+        /// <param name="term"></param>
+        private void SetSearchWeek(int term)
+        {
+            Proxy = ChannelFactory.CreateChannel();
+            Term tm = Proxy.GetPurposeTerm(term);
+            this.SearchWeek.Items.Clear();
+            this.SearchWeek.Items.Add("");
+            for (int i = 1; i <= tm.TermWeeks; i++)
+            {
+               
+                this.SearchWeek.Items.Add(i);
+            }
 
+        }
+        /// <summary>
+        /// 设置查询工作日列表
+        /// </summary>
+        private void SetSearchWeekday()
+        {
+            this.SearchWeekday.Items.Clear();
+            this.SearchWeekday.Items.Add("");
+            for (int i = 1; i < 8; i++)
+            {
+                this.SearchWeekday.Items.Add(i);
+            }
+        }
+        private void SetSearchCls()
+        {
+            Proxy = ChannelFactory.CreateChannel();
+            List<ClassTime>  clsTimes = Proxy.GetClassTimeList();
+            clsTimes.Insert(0, new ClassTime());
+            this.SearchCls.ItemsSource = clsTimes;
+        }
+        /// <summary>
+        /// 查询的页数
+        /// </summary>
+        int page = 0;
+        int pageSize = 20;
+        /// <summary>
+        /// 提交查询按钮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SearchSubmitByn_Click_1(object sender, RoutedEventArgs e)
         {
-            //获取查询学期 
-            //获取查询实验室
-            //获取查询周次
-            //获取查询工作日
-            //获取查询节次
-            //获取查询页数
-            //获取查询显示页数
-            //Proxy.GetPageRecords();
-        }
 
+            if (ChannelFactory == null)
+            {
+                CreatProxy();
+            }
+            //获取查询页数
+            page = 0;
+            SearchRecordParam pm = new SearchRecordParam();
+            if (this.SearchTerm.SelectedValue==null)
+            {
+                pm.term = null;
+            }
+            else
+            {
+                pm.term = Convert.ToInt32(this.SearchTerm.SelectedValue);
+            }
+            if (this.SearchLab.SelectedValue == null)
+            {
+                pm.lab = null;
+            }
+            else
+            {
+                pm.lab = Convert.ToInt32(this.SearchLab.SelectedValue);
+            }
+            if (this.SearchWeek.Text == null || this.SearchWeek.Text == "")
+            {
+                pm.week = null;
+            }
+            else
+            {
+                pm.week = Convert.ToInt32(this.SearchWeek.Text);
+            }
+            if (this.SearchWeekday.Text == null || this.SearchWeekday.Text == "")
+            {
+                pm.weekday = null;
+            }
+            else
+            {
+                pm.weekday = Convert.ToInt32(this.SearchWeekday.Text);
+            }
+            if (Convert.ToInt32(this.SearchCls.SelectedValue) == 0 || (this.SearchCls.SelectedValue) == ""||(this.SearchCls.SelectedValue) == null)
+            {
+                pm.cls = null;
+            }
+            else
+            {
+                pm.cls = Convert.ToInt32(this.SearchCls.SelectedValue);
+            }
+            pm.page = page;
+            pm.pageSize = pageSize;
+
+            Proxy = ChannelFactory.CreateChannel();
+            PageRecord pgRecord= Proxy.GetPageRecords(pm);
+            this.SearchResultDG.ItemsSource = pgRecord.ExpRecordList;
+        }
+        #endregion
         private void DetailBtn_Click_1(object sender, RoutedEventArgs e)
         {
 
@@ -831,6 +966,16 @@ namespace Sygl
         private void SetBtn_Click_1(object sender, RoutedEventArgs e)
         {
             SetWindow setWindow = new SetWindow();
+        }
+
+        private void MainSetBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+            SetWindow setWindow = new SetWindow();
+        }
+
+        private void MainAboutBtn_Click_1(object sender, RoutedEventArgs e)
+        {
+
         }
 
     }

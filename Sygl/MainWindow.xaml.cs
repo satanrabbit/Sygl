@@ -281,7 +281,7 @@ namespace Sygl
                         catch (Exception ex)
                         {
                             channelFlag = 2;
-                            TimeCounts = 60;
+                            TimeCounts = 70;
                         }
                     }
                     #endregion
@@ -290,15 +290,20 @@ namespace Sygl
                 {
                     if (TimeCounts == 0)
                     {
+                        if (!isSign)
+                        {
+                            //显示窗口
+                            this.Show();
+                        }
                         #region 弹出填写
                         //获取下一次弹出时间
-                        TimeCounts = TimeCounts;
-                        //显示窗口
-                        this.Show();
+                        Proxy = ChannelFactory.CreateChannel();
+                        TimeCounts =Proxy.GetPopTimeTallies();
                         if (tipWindow == null)
                         {
                             tipWindow = new TipWindow(this);
                         }
+                       
                         tipWindow.Hide();
                         #endregion
                     }

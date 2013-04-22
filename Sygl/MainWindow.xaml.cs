@@ -248,175 +248,206 @@ namespace Sygl
                 {
                     TimeCounts = TIMECOUNTS;
                 }
-                if (channelFlag!=1)
+
+                switch (channelFlag)
                 {
-                    #region 连接服务
-                    if (channelFlag == 0)
-                    {
-                        this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒连接服务器！";
-                    }
-                    else
-                    {
-                        if (channelFlag == 2)
+                    case 0:
+                        if (TimeCounts == 0)
                         {
-                            this.ServiceStatus.Text = "服务器连接错误," + TimeCounts.ToString() + "秒后重试！";
+                            TryLink();
                         }
-                    }
-                    if (TimeCounts == 0)
-                    {
-                        try
+                        else
                         {
-                            CreatProxy();
-                            channelFlag = 1;
-                            this.ServiceStatus.Text = "已经连接服务器！";
-                            TimeCounts = Proxy.GetPopTimeTallies();
+                            this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后连接服务器";
+                        }
+                        break;
+                    case 1:
+                        TralAction();
+                        break;
+                    case 2:
+                        if (TimeCounts == 0)
+                        {
+                            TryLink();
+                        }
+                        else
+                        {
+                            this.ServiceStatus.Text = "网络错误，等待" + TimeCounts.ToString() + "秒后重试";
+                        }
+                        break;
+                    default:
+                        break;
+                }
 
-                            SetCls();
+                TimeCounts--; 
+            };
+            timer.Start();
+        }
+        #endregion
 
-                            if (TimeCounts < 60)
-                            {
-                                TimeCounts = 70;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            channelFlag = 2;
-                            TimeCounts = 70;
-                        }
+        #region 尝试连接服务器
+        private void TryLink()
+        {
+            try {
+                CreatProxy();
+                channelFlag = 1;
+                TimeCounts = Proxy.GetPopTimeTallies();
+                if (TimeCounts < 60)
+                {
+                    TimeCounts = 70;
+                }
+            }
+            catch (Exception ex){
+                channelFlag = 2; 
+                TimeCounts = 70;
+            }
+        }
+        #endregion
+
+        #region 设置当面前时间点的填写情况
+        private void TralAction()
+        {
+            if (TimeCounts > 60)
+            {
+                int _timeCount = TimeCounts - 60;
+                //不需要提示和弹窗，并且未查询填写情况
+                int h, m, s;
+                h = 0;
+                m = 0;
+                s = _timeCount % 60;
+                if (_timeCount > 60)
+                {
+                    m = _timeCount / 60;
+                    if (m > 60)
+                    {
+                        h = m / 60;
+                        m = m % 60;
                     }
-                    #endregion
+                }
+                string timeTipStr = "";
+                if (h > 0)
+                {
+                    timeTipStr = h.ToString() + "小时"+ m.ToString() + "分钟" + s + "秒";
                 }
                 else
                 {
-                    if (TimeCounts == 0)
+                    if (m > 0)
                     {
-                        if (!isSign)
-                        {
-                            //显示窗口
-                            this.Show();
-                        }
-                        #region 弹出填写
-                        //获取下一次弹出时间
-                        Proxy = ChannelFactory.CreateChannel();
-                        TimeCounts =Proxy.GetPopTimeTallies();
-                        if (tipWindow == null)
-                        {
-                            tipWindow = new TipWindow(this);
-                        }
-                       
-                        tipWindow.Hide();
-                        #endregion
+                        timeTipStr = timeTipStr + m.ToString() + "分钟" + s + "秒";
                     }
                     else
                     {
-                        if (TimeCounts == 60)
+                        timeTipStr = timeTipStr + s + "秒";
+                    }
+                }
+                this.ServiceStatus.Text = "当前不需要填写，" + timeTipStr + "后查询服务器";
+            }
+            else
+            {
+                if (TimeCounts == 60)
+                {
+                    this.ServiceStatus.Text = "正在查询服务器信息，当前不可操作.....";
+                    Proxy = ChannelFactory.CreateChannel();
+                    expRecordWithFlag = Proxy.GetExpRecordWithFlag(Properties.Settings.Default.LabID);
+                    //初始化填写窗口
+                    switch (expRecordWithFlag.SignFlag)
+                    {
+                        case 0: //无课，不需填写
+                            isSign = true;
+                            this.ServiceStatus.Text = "当前无课，不需填写！";
+                            break;
+                        case 1: //已经填写
+                            isSign = true;
+                            this.ServiceStatus.Text = "已经填写本次实验记录！";
+                            break;
+                        case 2: //需要核对
+                            isSign = false;
+                            this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后核对记录！";
+                            SetForm(expRecordWithFlag.ExpRecord);
+                            break;
+                        case 3: //新填写
+                            isSign = false;
+                            this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后填写记录！";
+                            SetForm(expRecordWithFlag.ExpRecord);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    if (!isSign)
+                    {
+                        //需要填写
+                        if (TimeCounts > 30)
                         {
-                            #region 查询填写状态
-                            Proxy = ChannelFactory.CreateChannel();
-                            expRecordWithFlag = Proxy.GetExpRecordWithFlag(Properties.Settings.Default.LabID);
-                            
                             //初始化填写窗口
                             switch (expRecordWithFlag.SignFlag)
                             {
-                                case 0: //无课，不需填写
-                                    isSign = true;
-                                    this.ServiceStatus.Text = "当前无课，不需填写！";
+                                case 2: //需要核对 
+                                    this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后核对记录！"; 
                                     break;
-                                case 1: //已经填写
-                                    isSign = true;
-                                    this.ServiceStatus.Text = "已经填写记录！";
-                                    break;
-                                case 2: //需要核对
-                                    isSign = false;
-                                    this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后核对记录！";
-                                    SetForm(expRecordWithFlag.ExpRecord);
-                                    break;
-                                case 3: //新填写
-                                    isSign = false;
-                                    this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后填写记录！";
-                                    SetForm(expRecordWithFlag.ExpRecord);
+                                case 3: //新填写 
+                                    this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后填写记录！"; 
                                     break;
                                 default:
                                     break;
                             }
-                            #endregion
                         }
                         else
                         {
-                            if (TimeCounts <= 30&&isSign!=true)
+                            //0-30秒内 
+                            switch (expRecordWithFlag.SignFlag)
                             {
-                                    #region 提示填写
+                                case 2: //需要核对 
+                                    this.ServiceStatus.Text = "等待核对记录！";
+                                    break;
+                                case 3: //新填写 
+                                    this.ServiceStatus.Text = "等待填写记录！";
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            if (this.Visibility == Visibility.Hidden || this.WindowState == WindowState.Minimized)
+                            {
+                                if (tipWindow == null)
+                                {
+                                    tipWindow = new TipWindow(this);
+                                }
+                                tipWindow.timeTip.Text = TimeCounts.ToString();
+                                if (TimeCounts > 0)
+                                {
+                                    //初始化填写窗口
                                     switch (expRecordWithFlag.SignFlag)
                                     {
-                                        case 0: //无课，不需填写
-                                            this.ServiceStatus.Text = "当前无课，不需填写！等待" + (TimeCounts - 60).ToString() + "秒后查询服务！";
-                                            break;
-                                        case 1: //已经填写
-                                            this.ServiceStatus.Text = "等待" + (TimeCounts - 60).ToString() + "秒后查询服务！";
-                                            break;
-                                        case 2: //需要核对
-                                            this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后核对记录！";
-                                            if (this.Visibility == Visibility.Hidden || this.WindowState == WindowState.Minimized)
-                                            {
-                                                if (tipWindow == null)
-                                                {
-                                                    tipWindow = new TipWindow(this);
-                                                }
-
+                                        case 2: //需要核对 
                                                 tipWindow.windowUpAnimation("当前记录信息不一致，距离核对记录还有：", "立刻核对");
-                                                
-                                                tipWindow.timeTip.Text = TimeCounts.ToString();
-                                            }
                                             break;
-                                        case 3: //新填写
-                                            this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后填写记录！";
-                                            if (this.Visibility == Visibility.Hidden || this.WindowState == WindowState.Minimized)
-                                            {
-                                                if (tipWindow == null)
-                                                {
-                                                    tipWindow = new TipWindow(this);
-                                                }
-
+                                        case 3: //新填写 
                                                 tipWindow.windowUpAnimation("距离填写本次实验记录还有", "立刻填写");
-                                               
-                                                tipWindow.timeTip.Text = TimeCounts.ToString();
-                                            }
                                             break;
                                         default:
                                             break;
                                     }
-                                    #endregion
-                                
-                            }
-                            else
-                            {
-                                if (30 < TimeCounts && TimeCounts < 60)
-                                {
-                                    if (expRecordWithFlag == null)
-                                    {
-                                        TimeCounts = 70;
-                                    }
-                                    else
-                                    {
-
-                                        if (!isSign)
-                                        {
-                                            this.ServiceStatus.Text = "等待" + TimeCounts.ToString() + "秒后填写记录！";
-                                        }
-                                    }
                                 }
                                 else
                                 {
-                                    this.ServiceStatus.Text = "当前不需填写，等待" + (TimeCounts - 60).ToString() + "秒后查询服务！";
+                                    //TimeCounts == 0
+                                    this.Visibility = Visibility.Visible;
+                                    this.Show();
+                                    tipWindow.Hide();
                                 }
                             }
-                        }
 
+                            if (TimeCounts == 0)
+                            {
+                                TimeCounts++;
+                            }
+
+                        }
                     }
                 }
-                TimeCounts--;
-            };
-            timer.Start();
+            }
         }
         #endregion
 

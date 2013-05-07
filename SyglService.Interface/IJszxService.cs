@@ -533,6 +533,4 @@ namespace SyglService.Interface
     #endregion
 
     #endregion
-
-    
 }

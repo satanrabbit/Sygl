@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JszxService", "jszxService\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JszxConsoleService", "JszxConsoleService\JszxConsoleService.csproj", "{A66AD035-B3FE-40F9-9D31-EE245C793FCB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyglStartConsole", "SyglStartConsole\SyglStartConsole.csproj", "{BD66C9DC-1DEA-413B-8500-0CEBAF300168}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{A66AD035-B3FE-40F9-9D31-EE245C793FCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A66AD035-B3FE-40F9-9D31-EE245C793FCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A66AD035-B3FE-40F9-9D31-EE245C793FCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD66C9DC-1DEA-413B-8500-0CEBAF300168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD66C9DC-1DEA-413B-8500-0CEBAF300168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD66C9DC-1DEA-413B-8500-0CEBAF300168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD66C9DC-1DEA-413B-8500-0CEBAF300168}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

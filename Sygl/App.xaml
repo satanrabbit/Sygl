@@ -16,7 +16,6 @@
                                               HorizontalAlignment="Center" />
                         </Border>
                         <!--模版触发器-->
-
                     </ControlTemplate>
                 </Setter.Value>
 
